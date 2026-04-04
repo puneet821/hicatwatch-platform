@@ -53,13 +53,13 @@ const CONFIG = {
     // Set API Key (v3)
     setApiKey(key) {
         this.TMDB_API_KEY = key;
-        localStorage.setItem('flixstream_api_key', key);
+        localStorage.setItem('catwatch_api_key', key);
     },
 
     // Set Bearer Token (v4 Read Access Token)
     setBearerToken(token) {
         this.TMDB_BEARER_TOKEN = token;
-        localStorage.setItem('flixstream_bearer_token', token);
+        localStorage.setItem('catwatch_bearer_token', token);
     },
 
     // Check if any auth is set
@@ -79,8 +79,8 @@ const CONFIG = {
     clearAuth() {
         this.TMDB_API_KEY = '';
         this.TMDB_BEARER_TOKEN = '';
-        localStorage.removeItem('flixstream_api_key');
-        localStorage.removeItem('flixstream_bearer_token');
+        localStorage.removeItem('catwatch_api_key');
+        localStorage.removeItem('catwatch_bearer_token');
     },
 
     // Get image URL
