@@ -102,32 +102,72 @@ const Components = {
             const rating = API.formatRating(movie.vote_average);
             const year = API.getYear(API.getReleaseDate(movie));
             const mediaType = API.getMediaType(movie);
-            const overview = movie.overview
-                ? (movie.overview.length > 200 ? movie.overview.slice(0, 200) + '...' : movie.overview)
-                : '';
-            const genres = (movie.genre_ids || []).slice(0, 3).map(id => GenreMap[id] || '').filter(Boolean).join(' • ');
+            
+            // Split title for artistic layout (e.g., "The Witcher" -> "THE" and "WITCHER")
+            const titleParts = title.toUpperCase().split(' ');
+            const topText = titleParts[0] || '';
+            const bottomText = titleParts.slice(1).join(' ') || '';
+
+            // Get some thumbnails for the pills
+            const pillMovies = movies.slice(1, 4).map(m => ({
+                id: m.id,
+                type: API.getMediaType(m),
+                img: CONFIG.getImageUrl(m.backdrop_path, 'backdrop_sm'),
+                title: API.getTitle(m)
+            }));
 
             return `
                 <div class="hero__slide ${i === 0 ? 'active' : ''}" data-index="${i}">
-                    <img class="hero__backdrop" src="${backdropUrl}" alt="${title}" loading="${i === 0 ? 'eager' : 'lazy'}">
-                    <div class="hero__gradient-left"></div>
-                    <div class="hero__gradient-bottom"></div>
-                    <div class="hero__content">
-                        <div class="hero__tag">🔥 Trending Now</div>
-                        <h1 class="hero__title">${title}</h1>
-                        <div class="hero__meta">
-                            <span class="hero__rating">${this.icons.star} ${rating}</span>
-                            <span>${year}</span>
-                            ${genres ? `<span>${genres}</span>` : ''}
+                    <div class="hero__art-container">
+                        <img class="hero__art-image" src="${backdropUrl}" alt="${title}" loading="${i === 0 ? 'eager' : 'lazy'}">
+                        <div class="hero__brush-mask"></div>
+                    </div>
+                    
+                    <div class="hero__content-artistic">
+                        <div class="hero__headline">
+                            <span class="hero__headline-top">${topText}</span>
+                            <span class="hero__headline-bottom">
+                                ${bottomText ? `<span class="hero__headline-rest">${bottomText}</span>` : ''}
+                                <span class="hero__headline-accent">PROTECT</span>
+                            </span>
                         </div>
-                        <p class="hero__overview">${overview}</p>
-                        <div class="hero__actions">
-                            <button class="btn btn-primary" onclick="App.navigateToWatch(${movie.id}, '${mediaType}')">
-                                ${this.icons.play} Watch Now
-                            </button>
-                            <button class="btn btn-secondary" onclick="App.navigateToDetail(${movie.id}, '${mediaType}')">
-                                ${this.icons.info} Details
-                            </button>
+
+                        <div class="hero__watch-circle" onclick="App.navigateToWatch(${movie.id}, '${mediaType}')">
+                            <div class="hero__watch-ring"></div>
+                            <div class="hero__watch-main">
+                                <span class="hero__watch-label">NEW SEASON</span>
+                                <h2 class="hero__watch-title">WATCH<br>NOW</h2>
+                                <span class="hero__watch-extra">ON CATWATCH</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero__pills">
+                        ${pillMovies.map((pm, idx) => `
+                            <div class="hero__pill hero__pill--${idx + 1}" onclick="App.navigateToDetail(${pm.id}, '${pm.type}')">
+                                <img src="${pm.img}" class="hero__pill-img" alt="${pm.title}">
+                                <span>${pm.title.length > 15 ? pm.title.slice(0, 15) + '...' : pm.title}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="hero__scroll-indicator">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 13 5 5 5-5M7 6l5 5 5-5"/></svg>
+                        <div class="hero__scroll-line"></div>
+                    </div>
+
+                    <div class="hero__info-footer">
+                        <div class="hero__info-item">
+                            <h4>Released</h4>
+                            <p>${year}</p>
+                        </div>
+                        <div class="hero__info-item">
+                            <h4>Rating</h4>
+                            <p>${rating} / 10</p>
+                        </div>
+                        <div class="hero__info-item">
+                            <h4>Cast</h4>
+                            <p>Featured Stars</p>
                         </div>
                     </div>
                 </div>
@@ -139,9 +179,11 @@ const Components = {
         `).join('');
 
         return `
-            <div class="hero" id="hero-banner">
+            <div class="hero hero--artistic" id="hero-banner">
                 ${slidesHtml}
-                <div class="hero__dots">${dotsHtml}</div>
+                <div class="hero__dots" style="bottom: 20px; left: 50%; transform: translateX(-50%);">
+                    ${dotsHtml}
+                </div>
             </div>
         `;
     },

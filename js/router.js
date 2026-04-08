@@ -48,7 +48,10 @@ const Router = {
     // Parse route and extract params
     _matchRoute(path) {
         console.log(`Router: Matching path [${path}]`);
-        for (const [pattern, handler] of Object.entries(this.routes)) {
+        const keys = Object.keys(this.routes);
+        for (let i = 0; i < keys.length; i++) {
+            const pattern = keys[i];
+            const handler = this.routes[pattern];
             const params = this._extractParams(pattern, path);
             if (params !== null) {
                 console.log(`Router: Match found! Handler: ${handler}`);

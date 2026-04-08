@@ -199,66 +199,63 @@ const App = {
 
         switch (handler) {
             case 'home':
+                document.body.classList.add('theme-artistic');
                 this.currentPage = HomePage;
                 await HomePage.render();
                 break;
-
+ 
             case 'movieDetail':
-                this.currentPage = DetailPage;
-                await DetailPage.render('movie', params.id);
-                break;
-
             case 'tvDetail':
-                this.currentPage = DetailPage;
-                await DetailPage.render('tv', params.id);
-                break;
-
             case 'watchMovie':
-                this.currentPage = WatchPage;
-                await WatchPage.render('movie', params.id);
-                break;
-
             case 'watchTV':
-                this.currentPage = WatchPage;
-                await WatchPage.render('tv', params.id, params.season, params.episode);
-                break;
-
             case 'browse':
-                this.currentPage = BrowsePage;
-                await BrowsePage.render(params.type || 'movie');
-                break;
-
             case 'genre':
-                this.currentPage = BrowsePage;
-                await BrowsePage.render('movie', params.id);
-                break;
-
             case 'search':
-                this.currentPage = SearchPage;
-                await SearchPage.render(params.query);
-                break;
-
             case 'watchlist':
-                try {
-                    this.currentPage = WatchlistPage;
-                    await WatchlistPage.render();
-                } catch (e) {
-                    console.error('Watchlist render error:', e);
-                    Router.navigate('/');
+            case 'bollywood':
+            case 'hollywood':
+                document.body.classList.remove('theme-artistic');
+                // Use a helper to avoid duplication if possible, but keeping it simple for now
+                if (handler === 'movieDetail') {
+                    this.currentPage = DetailPage;
+                    await DetailPage.render('movie', params.id);
+                } else if (handler === 'tvDetail') {
+                    this.currentPage = DetailPage;
+                    await DetailPage.render('tv', params.id);
+                } else if (handler === 'watchMovie') {
+                    this.currentPage = WatchPage;
+                    await WatchPage.render('movie', params.id);
+                } else if (handler === 'watchTV') {
+                    this.currentPage = WatchPage;
+                    await WatchPage.render('tv', params.id, params.season, params.episode);
+                } else if (handler === 'browse') {
+                    this.currentPage = BrowsePage;
+                    await BrowsePage.render(params.type || 'movie');
+                } else if (handler === 'genre') {
+                    this.currentPage = BrowsePage;
+                    await BrowsePage.render('movie', params.id);
+                } else if (handler === 'search') {
+                    this.currentPage = SearchPage;
+                    await SearchPage.render(params.query);
+                } else if (handler === 'watchlist') {
+                    try {
+                        this.currentPage = WatchlistPage;
+                        await WatchlistPage.render();
+                    } catch (e) {
+                        console.error('Watchlist render error:', e);
+                        Router.navigate('/');
+                    }
+                } else if (handler === 'bollywood') {
+                    this.currentPage = BrowsePage;
+                    await BrowsePage.render('bollywood');
+                } else if (handler === 'hollywood') {
+                    this.currentPage = BrowsePage;
+                    await BrowsePage.render('hollywood');
                 }
                 break;
-
-            case 'bollywood':
-                this.currentPage = BrowsePage;
-                await BrowsePage.render('bollywood');
-                break;
-
-            case 'hollywood':
-                this.currentPage = BrowsePage;
-                await BrowsePage.render('hollywood');
-                break;
-
+ 
             default:
+                document.body.classList.remove('theme-artistic');
                 console.warn('Unknown route handler:', handler);
                 Router.navigate('/');
         }

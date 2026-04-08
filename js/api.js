@@ -5,6 +5,62 @@
 const API = {
     // Fetch with timeout
     async _fetchWithTimeout(url, options = {}, timeoutMs = CONFIG.REQUEST_TIMEOUT) {
+        // Fallback for older Smart TVs (like LG WebOS 3.0) that lack 'fetch'
+        if (typeof fetch === 'undefined') {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open(options.method || 'GET', url, true);
+                
+                if (options.headers) {
+                    Object.keys(options.headers).forEach(k => {
+                        xhr.setRequestHeader(k, options.headers[k]);
+                    });
+                }
+
+                xhr.timeout = timeoutMs;
+                
+                xhr.onload = function () {
+                    resolve({
+                        ok: xhr.status >= 200 && xhr.status < 300,
+                        status: xhr.status,
+                        json: () => Promise.resolve(JSON.parse(xhr.responseText)),
+                        text: () => Promise.resolve(xhr.responseText)
+                    });
+                };
+                
+                xhr.onerror = function () {
+                    reject(new Error('Network Error'));
+                };
+                
+                xhr.ontimeout = function () {
+                    reject(new Error('Request timed out. Please check your internet connection.'));
+                };
+
+                xhr.send(options.body || null);
+            });
+        }
+
+        // Environment supports fetch but lacks AbortController
+        if (typeof AbortController === 'undefined') {
+            return new Promise((resolve, reject) => {
+                const timeoutId = setTimeout(() => {
+                    reject(new Error('Request timed out. Please check your internet connection.'));
+                }, timeoutMs);
+                try {
+                    fetch(url, options).then(res => {
+                        clearTimeout(timeoutId);
+                        resolve(res);
+                    }).catch(err => {
+                        clearTimeout(timeoutId);
+                        reject(err);
+                    });
+                } catch(e) {
+                    clearTimeout(timeoutId);
+                    reject(e);
+                }
+            });
+        }
+
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -26,18 +82,28 @@ const API = {
 
     // Generic fetch with auth, timeout, and retry
     async _fetch(endpoint, params = {}, retries = CONFIG.MAX_RETRIES) {
-        const url = new URL(`${CONFIG.TMDB_BASE_URL}${endpoint}`);
+        let urlStr = `${CONFIG.TMDB_BASE_URL}${endpoint}`;
+        const queryParams = [];
 
         // Add query params
         const authType = CONFIG.getAuthType();
         if (authType === 'apikey') {
-            url.searchParams.set('api_key', CONFIG.TMDB_API_KEY);
+            queryParams.push(`api_key=${encodeURIComponent(CONFIG.TMDB_API_KEY)}`);
         }
-        Object.entries(params).forEach(([key, val]) => {
-            if (val !== undefined && val !== null && val !== '') {
-                url.searchParams.set(key, val);
-            }
-        });
+        
+        // Avoid Object.entries for older browser compatibility
+        if (params) {
+            Object.keys(params).forEach(key => {
+                const val = params[key];
+                if (val !== undefined && val !== null && val !== '') {
+                    queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+                }
+            });
+        }
+
+        if (queryParams.length > 0) {
+            urlStr += (urlStr.includes('?') ? '&' : '?') + queryParams.join('&');
+        }
 
         // Build headers
         const headers = {};
@@ -49,7 +115,7 @@ const API = {
         let lastError;
         for (let attempt = 0; attempt <= retries; attempt++) {
             try {
-                const response = await this._fetchWithTimeout(url.toString(), { headers });
+                const response = await this._fetchWithTimeout(urlStr, { headers });
                 if (!response.ok) {
                     const errData = await response.json().catch(() => ({}));
                     throw new Error(errData.status_message || `API Error: ${response.status}`);

@@ -18,14 +18,21 @@ const HomePage = {
 
         try {
             // Fetch all data in parallel with individual error catching
-            const results = await Promise.allSettled([
+            const promises = [
                 API.getTrending('all', 'day'),
                 API.getPopular('movie'),
                 API.getTopRated('movie'),
                 API.getPopular('tv'),
                 API.getBollywoodMovies(),
                 API.getHollywoodMovies(),
-            ]);
+            ];
+
+            const results = await Promise.all(
+                promises.map(p => p.then(
+                    value => ({ status: 'fulfilled', value }),
+                    reason => ({ status: 'rejected', reason })
+                ))
+            );
 
             const [trending, popular, topRated, popularTV, bollywood, hollywood] = results.map(r =>
                 r.status === 'fulfilled' ? r.value : { results: [] }
