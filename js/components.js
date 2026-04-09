@@ -117,7 +117,7 @@ const Components = {
             }));
 
             return `
-                <div class="hero__slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+                <div class="hero__slide ${i === 0 ? 'active' : ''}" data-index="${i}" onclick="App.navigateToWatch(${movie.id}, '${mediaType}')">
                     <div class="hero__art-container">
                         <img class="hero__art-image" src="${backdropUrl}" alt="${title}" loading="${i === 0 ? 'eager' : 'lazy'}">
                         <div class="hero__brush-mask"></div>

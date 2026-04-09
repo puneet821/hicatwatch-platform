@@ -20,6 +20,7 @@ const Router = {
             '/watchlist': 'watchlist',
             '/bollywood': 'bollywood',
             '/hollywood': 'hollywood',
+
         };
 
         // Prevent multiple listeners if init is called twice

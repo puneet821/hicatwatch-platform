@@ -109,4 +109,5 @@ const CONFIG = {
         }
         return `${source.base}/tv/${tmdbId}/${season}/${episode}`;
     },
+
 };

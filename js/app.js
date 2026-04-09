@@ -214,6 +214,7 @@ const App = {
             case 'watchlist':
             case 'bollywood':
             case 'hollywood':
+
                 document.body.classList.remove('theme-artistic');
                 // Use a helper to avoid duplication if possible, but keeping it simple for now
                 if (handler === 'movieDetail') {
@@ -251,6 +252,7 @@ const App = {
                 } else if (handler === 'hollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('hollywood');
+
                 }
                 break;
  

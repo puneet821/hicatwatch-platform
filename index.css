@@ -1054,31 +1054,45 @@ input {
 @media (max-width: 768px) {
     .hero--artistic {
         height: auto;
-        min-height: 100vh;
-        padding-top: 80px;
+        min-height: 90vh;
+        padding-top: 0;
         padding-bottom: 40px;
+        display: block;
+        background: var(--bg-primary);
     }
 
     .hero--artistic .hero__slide {
         flex-direction: column;
-        justify-content: flex-start;
+        height: auto;
+        padding-top: 60px; /* Space for navbar */
+    }
+
+    /* Clickable area for the whole slide */
+    .hero--artistic .hero__slide::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 12;
+        cursor: pointer;
     }
 
     .hero--artistic .hero__art-container {
         position: relative;
         width: 100%;
-        height: 60vh;
+        height: 55vh;
+        min-height: 380px;
         order: -1;
-        margin-bottom: -100px;
+        margin-bottom: 0;
     }
 
     .hero--artistic .hero__art-image {
-        mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
-        -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+        mask-image: linear-gradient(to bottom, black 85%, transparent);
+        -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent);
+        object-position: center 10%;
     }
 
     .hero--artistic .hero__brush-mask {
-        clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 50% 15%, 0% 30%);
+        display: none; /* Hide mask on mobile to simplify */
     }
 
     .hero--artistic .hero__content-artistic {
@@ -1086,62 +1100,128 @@ input {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding-bottom: 60px;
+        padding: 40px 20px;
+        margin-top: -100px; /* Pull text up over the gradient */
+        position: relative;
+        z-index: 15;
+        background: linear-gradient(to top, var(--bg-primary) 80%, transparent);
     }
 
     .hero__headline {
         margin-top: 0;
+        margin-bottom: 30px;
         align-items: center;
+        width: 100%;
+        color: var(--text-white);
     }
 
     .hero__headline-top {
-        font-size: 4rem;
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+        color: var(--text-white);
+        text-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
     .hero__headline-bottom {
-        font-size: 4rem;
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
         flex-direction: column;
-        gap: 0;
-        margin-top: -10px;
+        gap: 2px;
+        margin-top: 0;
+        color: var(--text-secondary);
+        text-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
     .hero__headline-accent {
-        color: var(--art-text-dark);
-        opacity: 0.2;
+        color: var(--accent-primary);
+        opacity: 0.8;
+        font-size: 0.5em;
+        letter-spacing: 4px;
+        margin-top: 8px;
+        font-weight: 900;
+        text-shadow: 0 0 10px var(--accent-primary);
     }
 
     .hero__watch-circle {
-        margin: 40px 0;
-        width: 240px;
-        height: 240px;
+        margin: 20px 0;
+        width: 180px;
+        height: 180px;
+        z-index: 20;
     }
 
     .hero__watch-main {
-        width: 140px;
-        height: 140px;
+        width: 110px;
+        height: 110px;
+        background: var(--accent-primary);
+        box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+    }
+
+    .hero__watch-title {
+        font-size: 1rem;
     }
 
     .hero__info-footer {
         position: relative;
         bottom: 0;
         right: 0;
+        flex-wrap: wrap;
         justify-content: center;
-        gap: 30px;
+        gap: 15px 30px;
         margin-top: 40px;
+        width: 100%;
+        color: var(--text-secondary);
     }
 
-    .hero__pill--2, .hero__pill--3 {
-        display: none; /* Hide extra pills on mobile for cleaning */
+    .hero__info-item h4 {
+        color: var(--text-tertiary);
     }
 
-    .hero__pill--1 {
-        bottom: 10%;
-        left: 50%;
-        transform: translateX(-50%);
+    .hero__info-item p {
+        color: var(--text-primary);
+    }
+
+    .hero__pills {
+        display: none; /* Hide pills on mobile to keep it clean */
     }
     
     .hero__scroll-indicator {
         display: none;
+    }
+    
+    .hero__dots {
+        bottom: 20px !important;
+        background: rgba(0,0,0,0.3);
+        padding: 6px 16px;
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 30 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero--artistic {
+        padding-top: 80px;
+    }
+    
+    .hero__headline-top, .hero__headline-bottom {
+        font-size: clamp(2rem, 15vw, 3.5rem);
+    }
+    
+    .hero__watch-circle {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .hero__watch-main {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .hero__watch-title {
+        font-size: 1rem;
+    }
+    
+    .hero__info-footer {
+        gap: 15px 25px;
     }
 }
 
@@ -2900,6 +2980,8 @@ input {
     font-weight: 700;
     cursor: pointer;
 }
+
+
 
 
 
