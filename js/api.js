@@ -188,6 +188,11 @@ const API = {
         return this._fetch('/movie/now_playing', { page });
     },
 
+    // --- Discover ---
+    async getDiscover(mediaType = 'movie', params = {}) {
+        return this._fetch(`/discover/${mediaType}`, params);
+    },
+
     // --- Movie Details ---
     async getMovieDetails(id) {
         return this._fetch(`/movie/${id}`, {

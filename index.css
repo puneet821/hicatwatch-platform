@@ -77,8 +77,8 @@
     --art-accent: #ffffff;
     --art-border: rgba(0,0,0,0.1);
 
-    --logo-main: var(--art-text-dark);
-    --logo-sub: var(--art-text-muted);
+    --logo-main: #ffffff;
+    --logo-sub: var(--accent-primary);
 
     /* Z-index layers */
     --z-base: 1;
@@ -870,10 +870,6 @@ input {
     margin-top: 10px;
 }
 
-.hero__headline-accent {
-    color: var(--text-white);
-    text-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
 
 .hero__watch-circle {
     position: relative;
@@ -1130,15 +1126,6 @@ input {
         text-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
-    .hero__headline-accent {
-        color: var(--accent-primary);
-        opacity: 0.8;
-        font-size: 0.5em;
-        letter-spacing: 4px;
-        margin-top: 8px;
-        font-weight: 900;
-        text-shadow: 0 0 10px var(--accent-primary);
-    }
 
     .hero__watch-circle {
         margin: 20px 0;
@@ -1408,13 +1395,14 @@ input {
     flex-shrink: 0;
     width: 200px;
     cursor: pointer;
-    transition: transform var(--transition-normal);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     scroll-snap-align: start;
+    position: relative;
 }
 
 .movie-card:hover {
-    transform: scale(1.05);
-    z-index: 2;
+    transform: scale(1.06) translateY(-8px);
+    z-index: 10;
 }
 
 .movie-card__poster-wrap {
@@ -1424,7 +1412,15 @@ input {
     border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--bg-tertiary);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s var(--ease-smooth);
+    border: 1px solid transparent;
+}
+
+.movie-card:hover .movie-card__poster-wrap {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(229, 9, 20, 0.15);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .movie-card__poster {
@@ -1441,13 +1437,13 @@ input {
 .movie-card__overlay {
     position: absolute;
     inset: 0;
-    background: var(--gradient-card);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
     opacity: 0;
-    transition: opacity var(--transition-normal);
+    transition: opacity 0.4s var(--ease-smooth);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 14px;
+    padding: 16px;
 }
 
 .movie-card:hover .movie-card__overlay {
@@ -1555,13 +1551,19 @@ input {
     height: 100%;
     object-fit: cover;
     object-position: center top;
+    animation: slowZoom 20s infinite alternate linear;
+}
+
+@keyframes slowZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
 }
 
 .detail__backdrop-gradient {
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(to right, var(--bg-primary) 5%, rgba(10, 10, 15, 0.3) 40%, rgba(10, 10, 15, 0.1) 100%),
+        linear-gradient(to right, var(--bg-primary) 5%, rgba(10, 10, 15, 0.4) 40%, rgba(10, 10, 15, 0.1) 100%),
         linear-gradient(to top, var(--bg-primary) 0%, transparent 60%);
 }
 
@@ -1583,9 +1585,14 @@ input {
 .detail__poster {
     width: 100%;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     aspect-ratio: 2/3;
     object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.detail__poster:hover {
+    transform: translateY(-5px);
 }
 
 .detail__info {
@@ -1600,21 +1607,24 @@ input {
 }
 
 .genre-pill {
-    padding: 4px 14px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-full);
     font-size: 0.78rem;
     font-weight: 500;
     color: var(--text-secondary);
-    transition: all var(--transition-fast);
+    transition: all 0.3s var(--ease-bounce);
     cursor: pointer;
+    backdrop-filter: blur(10px);
 }
 
 .genre-pill:hover {
     background: rgba(229, 9, 20, 0.15);
-    border-color: rgba(229, 9, 20, 0.3);
-    color: var(--accent-primary);
+    border-color: rgba(229, 9, 20, 0.4);
+    color: var(--text-white);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.2);
 }
 
 .detail__title {
@@ -2142,23 +2152,30 @@ input {
 
 /* --- LOADING SKELETON --- */
 .skeleton {
-    background: var(--bg-tertiary);
+    background: var(--bg-hover);
     border-radius: var(--radius-md);
     position: relative;
     overflow: hidden;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.6; }
 }
 
 .skeleton::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--gradient-shimmer);
-    animation: shimmer 1.5s infinite;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%);
+    animation: shimmer 1.8s infinite linear;
 }
 
 @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% { transform: translateX(-150%); }
+    100% { transform: translateX(150%); }
 }
 
 .skeleton-card {
@@ -2319,17 +2336,19 @@ input {
 
 /* --- PAGE TRANSITIONS --- */
 .page-enter {
-    animation: pageEnter 0.4s var(--ease-out);
+    animation: pageEnter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @keyframes pageEnter {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px) scale(0.98);
+        filter: blur(4px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+        filter: blur(0);
     }
 }
 

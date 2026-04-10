@@ -126,10 +126,11 @@ const Components = {
                     <div class="hero__content-artistic">
                         <div class="hero__headline">
                             <span class="hero__headline-top">${topText}</span>
-                            <span class="hero__headline-bottom">
-                                ${bottomText ? `<span class="hero__headline-rest">${bottomText}</span>` : ''}
-                                <span class="hero__headline-accent">PROTECT</span>
-                            </span>
+                            ${bottomText ? `
+                                <span class="hero__headline-bottom">
+                                    <span class="hero__headline-rest">${bottomText}</span>
+                                </span>
+                            ` : ''}
                         </div>
 
                         <div class="hero__watch-circle" onclick="App.navigateToWatch(${movie.id}, '${mediaType}')">

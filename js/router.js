@@ -17,7 +17,7 @@ const Router = {
             '/browse/:type': 'browse',
             '/genre/:id': 'genre',
             '/search/:query': 'search',
-            '/watchlist': 'watchlist',
+            '/collections': 'collections',
             '/bollywood': 'bollywood',
             '/hollywood': 'hollywood',
 

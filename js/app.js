@@ -211,7 +211,7 @@ const App = {
             case 'browse':
             case 'genre':
             case 'search':
-            case 'watchlist':
+            case 'collections':
             case 'bollywood':
             case 'hollywood':
 
@@ -238,12 +238,12 @@ const App = {
                 } else if (handler === 'search') {
                     this.currentPage = SearchPage;
                     await SearchPage.render(params.query);
-                } else if (handler === 'watchlist') {
+                } else if (handler === 'collections') {
                     try {
-                        this.currentPage = WatchlistPage;
-                        await WatchlistPage.render();
+                        this.currentPage = CollectionsPage;
+                        await CollectionsPage.render();
                     } catch (e) {
-                        console.error('Watchlist render error:', e);
+                        console.error('Collections render error:', e);
                         Router.navigate('/');
                     }
                 } else if (handler === 'bollywood') {
