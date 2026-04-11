@@ -18,6 +18,7 @@ const Router = {
             '/genre/:id': 'genre',
             '/search/:query': 'search',
             '/collections': 'collections',
+            '/ai-picks': 'ai-picks',
             '/bollywood': 'bollywood',
             '/hollywood': 'hollywood',
 

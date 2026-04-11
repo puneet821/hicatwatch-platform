@@ -212,6 +212,7 @@ const App = {
             case 'genre':
             case 'search':
             case 'collections':
+            case 'ai-picks':
             case 'bollywood':
             case 'hollywood':
 
@@ -246,13 +247,15 @@ const App = {
                         console.error('Collections render error:', e);
                         Router.navigate('/');
                     }
+                } else if (handler === 'ai-picks') {
+                    this.currentPage = AiPicksPage;
+                    await AiPicksPage.render();
                 } else if (handler === 'bollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('bollywood');
                 } else if (handler === 'hollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('hollywood');
-
                 }
                 break;
  
