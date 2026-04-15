@@ -27,7 +27,7 @@ const CONFIG = {
 
     // Embed sources (fallback order)
     EMBED_SOURCES: [
-        { name: 'Server 1 (Global Hub)', base: 'https://vidsrc.cc/embed' },
+        { name: 'Server 1 (Global Hub)', base: 'https://vidsrc.vip/embed' },
         { name: 'Server 2 (Resilient Mirror)', base: 'https://vidsrc.uno/embed' },
         { name: 'Server 3 (Pro Stealth)', base: 'https://vidsrc.pro/embed' },
         { name: 'Server 4 (VIP Backup)', base: 'https://vidsrc.net/embed' },
