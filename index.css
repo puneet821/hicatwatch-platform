@@ -28,6 +28,8 @@
     /* Logo colors */
     --logo-main: #ffffff;
     --logo-sub: #ff416c;
+    --logo-gradient: linear-gradient(135deg, #7B2FF7 0%, #F107A3 100%);
+    --logo-glow: 0 0 20px rgba(123, 47, 247, 0.4);
 
     /* Glass */
     --glass-bg: rgba(12, 12, 20, 0.88);
@@ -78,7 +80,7 @@
     --art-border: rgba(0,0,0,0.1);
 
     --logo-main: #ffffff;
-    --logo-sub: var(--accent-primary);
+    --logo-sub: #F107A3; /* Updated to a more premium neon pink */
 
     /* Z-index layers */
     --z-base: 1;
@@ -371,6 +373,14 @@ input {
     color: #000000;
 }
 
+.theme-artistic .navbar:not(.scrolled) .logo-text__main {
+    color: #000000;
+}
+
+.theme-artistic .navbar:not(.scrolled) .logo-text__sub {
+    color: #F107A3;
+}
+
 .navbar.scrolled {
     top: 12px;
     background: rgba(10, 10, 20, 0.65);
@@ -401,17 +411,34 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: var(--gradient-accent);
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    background: var(--logo-gradient);
+    border-radius: 12px;
     color: white;
-    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
-    transition: transform var(--transition-normal);
+    box-shadow: var(--logo-glow);
+    transition: all 0.4s var(--ease-bounce);
+    position: relative;
+    overflow: hidden;
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.logo-symbol::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.2), transparent);
+    pointer-events: none;
 }
 
 .navbar__logo:hover .logo-symbol {
-    transform: rotate(-10deg) scale(1.1);
+    transform: translateY(-4px) scale(1.1) rotate(-5deg) !important;
+    box-shadow: 0 10px 30px rgba(123, 47, 247, 0.6);
 }
 
 .logo-symbol svg {
@@ -421,12 +448,12 @@ input {
 
 .logo-text {
     font-family: var(--font-logo);
-    font-size: 1.5rem;
-    font-weight: 900;
-    letter-spacing: -0.5px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -1px;
     display: flex;
     align-items: center;
-    text-transform: uppercase;
+    text-transform: none; /* Changed from uppercase for a more modern feel */
 }
 
 .logo-text__main {
