@@ -117,7 +117,7 @@ const Components = {
             }));
 
             return `
-                <div class="hero__slide ${i === 0 ? 'active' : ''}" data-index="${i}" onclick="App.navigateToWatch(${movie.id}, '${mediaType}')">
+                <div class="hero__slide ${i === 0 ? 'active' : ''}" data-index="${i}" data-backdrop="${backdropUrl}" onclick="App.navigateToWatch(${movie.id}, '${mediaType}')">
                     <div class="hero__art-container">
                         <img class="hero__art-image" src="${backdropUrl}" alt="${title}" loading="${i === 0 ? 'eager' : 'lazy'}">
                         <div class="hero__brush-mask"></div>
@@ -216,7 +216,12 @@ const Components = {
         document.querySelectorAll('.hero__dot').forEach(d => d.classList.remove('active'));
         const slide = document.querySelector(`.hero__slide[data-index="${index}"]`);
         const dot = document.querySelector(`.hero__dot[data-index="${index}"]`);
-        if (slide) slide.classList.add('active');
+        if (slide) {
+            slide.classList.add('active');
+            // Trigger dynamic color update
+            const backdrop = slide.dataset.backdrop;
+            if (backdrop) App.updateDynamicTheme(backdrop);
+        }
         if (dot) dot.classList.add('active');
     },
 

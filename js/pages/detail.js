@@ -30,6 +30,11 @@ const DetailPage = {
             const isInWatchlist = Storage.isInWatchlist(data.id, type);
             const mediaType = type;
 
+            // Trigger dynamic color update
+            if (data.backdrop_path) {
+                App.updateDynamicTheme(backdropUrl);
+            }
+
             // Cast
             const cast = data.credits && data.credits.cast
                 ? data.credits.cast.slice(0, 15)

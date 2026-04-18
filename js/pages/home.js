@@ -50,6 +50,9 @@ const HomePage = {
             // Hero banner with trending
             if (trending.results && trending.results.length > 0) {
                 html += Components.createHeroBanner(trending.results);
+                // Trigger initial dynamic color from first hero slide
+                const firstBackdrop = CONFIG.getImageUrl(trending.results[0].backdrop_path, 'backdrop_original');
+                App.updateDynamicTheme(firstBackdrop);
             }
 
             // Trending Today (wide cards)

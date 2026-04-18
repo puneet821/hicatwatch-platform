@@ -21,7 +21,93 @@ const App = {
         this._initNavbar();
         this._initSearch();
         this._initMobileMenu();
+        this._initDynamicTheme(); // Initialize theme variables
         Router.init();
+    },
+
+    // --- Dynamic Theme ---
+    _initDynamicTheme() {
+        // Set initial dynamic colors
+        document.documentElement.style.setProperty('--dynamic-bg', 'var(--bg-primary)');
+        document.documentElement.style.setProperty('--dynamic-accent', 'var(--accent-primary)');
+        document.documentElement.style.setProperty('--dynamic-accent-rgb', '229, 9, 20');
+    },
+
+    async updateDynamicTheme(imageUrl) {
+        if (!imageUrl) {
+            this._resetDynamicTheme();
+            return;
+        }
+
+        try {
+            const color = await this._extractDominantColor(imageUrl);
+            if (color) {
+                const { r, g, b } = color;
+                console.log(`%c Theme Update: rgb(${r}, ${g}, ${b}) `, `background: rgb(${r}, ${g}, ${b}); color: white; border-radius: 4px; padding: 2px 5px;`);
+                // Create a slightly darkened version for background
+                const darken = 0.4;
+                const bgR = Math.floor(r * darken);
+                const bgG = Math.floor(g * darken);
+                const bgB = Math.floor(b * darken);
+
+                document.documentElement.style.setProperty('--dynamic-bg', `rgb(${bgR}, ${bgG}, ${bgB})`);
+                document.body.style.backgroundImage = `radial-gradient(circle at 50% -20%, rgba(${r}, ${g}, ${b}, 0.15), transparent 80%)`;
+                document.documentElement.style.setProperty('--dynamic-accent', `rgb(${r}, ${g}, ${b})`);
+                document.documentElement.style.setProperty('--dynamic-accent-rgb', `${r}, ${g}, ${b}`);
+            }
+        } catch (e) {
+            console.warn('Failed to extract color:', e);
+            this._resetDynamicTheme();
+        }
+    },
+
+    _resetDynamicTheme() {
+        document.documentElement.style.setProperty('--dynamic-bg', 'var(--bg-primary)');
+        document.body.style.backgroundImage = 'none';
+        document.documentElement.style.setProperty('--dynamic-accent', 'var(--accent-primary)');
+        document.documentElement.style.setProperty('--dynamic-accent-rgb', '229, 9, 20');
+    },
+
+    _extractDominantColor(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.src = url;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 50; // Resizing for performance
+                canvas.height = 50;
+                ctx.drawImage(img, 0, 0, 50, 50);
+                
+                const imageData = ctx.getImageData(0, 0, 50, 50).data;
+                let r = 0, g = 0, b = 0, count = 0;
+
+                for (let i = 0; i < imageData.length; i += 4) {
+                    // Skip too dark or too white pixels
+                    const ir = imageData[i];
+                    const ig = imageData[i+1];
+                    const ib = imageData[i+2];
+                    const brightness = (ir + ig + ib) / 3;
+                    
+                    if (brightness > 30 && brightness < 220) {
+                        r += ir;
+                        g += ig;
+                        b += ib;
+                        count++;
+                    }
+                }
+
+                if (count === 0) return resolve({ r: 229, g: 9, b: 20 }); // Fallback red
+
+                resolve({
+                    r: Math.floor(r / count),
+                    g: Math.floor(g / count),
+                    b: Math.floor(b / count)
+                });
+            };
+            img.onerror = reject;
+        });
     },
 
     // --- Setup Modal ---
@@ -256,6 +342,11 @@ const App = {
                 } else if (handler === 'hollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('hollywood');
+                }
+                
+                // Reset dynamic theme for generic pages
+                if (['browse', 'search', 'genre', 'collections', 'ai-picks'].includes(handler)) {
+                    this.updateDynamicTheme(null);
                 }
                 break;
  
