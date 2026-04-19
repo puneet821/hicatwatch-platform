@@ -196,10 +196,12 @@ const App = {
 
     // --- Search ---
     _initSearch() {
+        const navSearch = document.getElementById('nav-search');
         const searchToggle = document.getElementById('search-toggle');
         const searchBar = document.getElementById('search-bar');
         const searchInput = document.getElementById('search-input');
         const searchClose = document.getElementById('search-close');
+        const searchResultsInstant = document.getElementById('search-results-instant');
 
         let searchTimeout = null;
 
@@ -213,15 +215,22 @@ const App = {
             searchBar.classList.add('hidden');
             searchToggle.classList.remove('hidden');
             searchInput.value = '';
+            this._hideInstantSearch();
         });
 
         searchInput.addEventListener('input', () => {
             clearTimeout(searchTimeout);
             const query = searchInput.value.trim();
+            
+            if (query.length === 0) {
+                this._hideInstantSearch();
+                return;
+            }
+
             if (query.length >= 2) {
                 searchTimeout = setTimeout(() => {
-                    Router.navigate(`/search/${encodeURIComponent(query)}`);
-                }, CONFIG.SEARCH_DEBOUNCE_MS);
+                    this._handleLiveSearch(query);
+                }, 300);
             }
         });
 
@@ -245,6 +254,71 @@ const App = {
                 searchToggle.click();
             }
         });
+
+        // Close search results on click outside
+        document.addEventListener('click', (e) => {
+            if (!navSearch.contains(e.target)) {
+                this._hideInstantSearch();
+            }
+        });
+    },
+
+    async _handleLiveSearch(query) {
+        const resultsEl = document.getElementById('search-results-instant');
+        if (!resultsEl) return;
+
+        resultsEl.classList.remove('hidden');
+        resultsEl.innerHTML = '<div style="padding:20px;text-align:center"><div class="spinner" style="width:24px;height:24px;border-width:2px"></div></div>';
+
+        try {
+            const data = await API.searchMulti(query);
+            const results = data.results.slice(0, 8); // Show top 8 results
+
+            if (results.length === 0) {
+                resultsEl.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-tertiary);font-size:0.9rem">No results found for "' + query + '"</div>';
+                return;
+            }
+
+            // Group results (Movies, TV)
+            const movies = results.filter(r => API.getMediaType(r) === 'movie');
+            const tv = results.filter(r => API.getMediaType(r) === 'tv');
+
+            let html = '';
+            
+            if (movies.length > 0) {
+                html += `
+                    <div class="search-results-instant__section">
+                        <div class="search-results-instant__header">Movies</div>
+                        ${movies.map(m => Components.createSearchItem(m)).join('')}
+                    </div>
+                `;
+            }
+
+            if (tv.length > 0) {
+                html += `
+                    <div class="search-results-instant__section">
+                        <div class="search-results-instant__header">TV Shows</div>
+                        ${tv.map(s => Components.createSearchItem(s)).join('')}
+                    </div>
+                `;
+            }
+
+            html += `
+                <div style="padding:8px;border-top:1px solid var(--glass-border);text-align:center">
+                    <a href="#/search/${encodeURIComponent(query)}" class="section-see-all" style="font-size:0.8rem">See all results</a>
+                </div>
+            `;
+
+            resultsEl.innerHTML = html;
+        } catch (e) {
+            console.error('Live search error:', e);
+            resultsEl.innerHTML = '<div style="padding:16px;text-align:center;color:var(--accent-primary)">Search failed</div>';
+        }
+    },
+
+    _hideInstantSearch() {
+        const resultsEl = document.getElementById('search-results-instant');
+        if (resultsEl) resultsEl.classList.add('hidden');
     },
 
     // --- Mobile Menu ---
