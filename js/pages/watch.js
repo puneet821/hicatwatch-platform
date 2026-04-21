@@ -103,19 +103,29 @@ const WatchPage = {
                         ` : ''}
                         <div id="watch-episodes-container">
                             <div class="episode-grid">
-                                ${episodes.map(ep => `
-                                    <div class="episode-card ${ep.episode_number === currentEp ? 'active' : ''}"
-                                        onclick="App.navigateToWatch(${id}, 'tv', ${season}, ${ep.episode_number})">
-                                        <div class="episode-card__number">${ep.episode_number}</div>
-                                        <div class="episode-card__info">
-                                            <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
-                                            <div class="episode-card__meta">
-                                                ${ep.runtime ? `${ep.runtime}m` : ''}
-                                                ${ep.vote_average ? ` • ⭐ ${API.formatRating(ep.vote_average)}` : ''}
+                                ${episodes.map(ep => {
+                                    const stillUrl = ep.still_path ? CONFIG.getImageUrl(ep.still_path, 'backdrop_sm') : '';
+                                    return `
+                                        <div class="episode-card ${ep.episode_number === currentEp ? 'active' : ''}"
+                                            onclick="App.navigateToWatch(${id}, 'tv', ${season}, ${ep.episode_number})">
+                                            <div class="episode-card__image-container">
+                                                ${stillUrl 
+                                                    ? `<img class="episode-card__img" src="${stillUrl}" alt="${ep.name}" loading="lazy">` 
+                                                    : `<div class="episode-card__img-placeholder">${Components.icons.film}</div>`}
+                                                <div class="episode-card__play-btn">${Components.icons.play}</div>
+                                                <div class="episode-card__number-badge">${ep.episode_number}</div>
+                                            </div>
+                                            <div class="episode-card__info">
+                                                <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
+                                                <div class="episode-card__meta">
+                                                    ${ep.runtime ? `<span>${ep.runtime}m</span>` : ''}
+                                                    ${ep.air_date ? `<span> • ${ep.air_date}</span>` : ''}
+                                                    ${ep.vote_average ? `<span class="episode-card__vote"> • ⭐ ${API.formatRating(ep.vote_average)}</span>` : ''}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                `).join('')}
+                                    `;
+                                }).join('')}
                             </div>
                         </div>
                     </div>
@@ -397,18 +407,27 @@ const WatchPage = {
 
             container.innerHTML = `
                 <div class="episode-grid">
-                    ${episodes.map(ep => `
+                    ${episodes.map(ep => {
+                        const stillUrl = ep.still_path ? CONFIG.getImageUrl(ep.still_path, 'backdrop_sm') : '';
+                        return `
                         <div class="episode-card" onclick="App.navigateToWatch(${tvId}, 'tv', ${seasonNumber}, ${ep.episode_number})">
-                            <div class="episode-card__number">${ep.episode_number}</div>
+                            <div class="episode-card__image-container">
+                                ${stillUrl 
+                                    ? `<img class="episode-card__img" src="${stillUrl}" alt="${ep.name}" loading="lazy">` 
+                                    : `<div class="episode-card__img-placeholder">${Components.icons.film}</div>`}
+                                <div class="episode-card__play-btn">${Components.icons.play}</div>
+                                <div class="episode-card__number-badge">${ep.episode_number}</div>
+                            </div>
                             <div class="episode-card__info">
                                 <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
                                 <div class="episode-card__meta">
-                                    ${ep.runtime ? `${ep.runtime}m` : ''}
-                                    ${ep.vote_average ? ` • ⭐ ${API.formatRating(ep.vote_average)}` : ''}
+                                    ${ep.runtime ? `<span>${ep.runtime}m</span>` : ''}
+                                    ${ep.vote_average ? `<span class="episode-card__vote"> • ⭐ ${API.formatRating(ep.vote_average)}</span>` : ''}
                                 </div>
                             </div>
                         </div>
-                    `).join('')}
+                    `;
+                    }).join('')}
                 </div>
             `;
         } catch (error) {
