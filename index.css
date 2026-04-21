@@ -3438,6 +3438,117 @@ input {
     font-size: 0.95rem;
 }
 
+/* --- SURPRISE ME SECTION --- */
+.surprise-section {
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.surprise-card {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+.surprise-card__inner {
+    position: relative;
+    padding: 60px 40px;
+    border-radius: 32px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.8) 0%, rgba(10, 10, 15, 0.9) 100%);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transition: transform 0.6s var(--ease-smooth);
+}
+
+.surprise-card:hover .surprise-card__inner {
+    transform: rotateX(2deg) rotateY(-1deg) translateY(-5px);
+}
+
+.surprise-card__glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, var(--accent-primary) 0%, transparent 40%);
+    opacity: 0.1;
+    filter: blur(60px);
+    pointer-events: none;
+    animation: glowRotate 10s linear infinite;
+}
+
+@keyframes glowRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.surprise-card__icon {
+    font-size: 5rem;
+    margin-bottom: 24px;
+    display: inline-block;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    animation: floatDice 4s ease-in-out infinite;
+    user-select: none;
+}
+
+@keyframes floatDice {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    50% { transform: translateY(-15px) rotate(15deg) scale(1.1); }
+}
+
+.surprise-card__icon.rolling {
+    animation: rollDice 0.3s ease-in-out infinite !important;
+}
+
+@keyframes rollDice {
+    0% { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.surprise-card__title {
+    font-size: 2.8rem !important;
+    font-weight: 800 !important;
+    color: var(--text-white);
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #fff, #a0a0a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.surprise-card__desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.surprise-card__btn {
+    position: relative;
+    padding: 16px 40px;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 100px;
+    box-shadow: 0 10px 30px rgba(var(--dynamic-accent-rgb), 0.3);
+    transition: all 0.3s var(--ease-smooth);
+    z-index: 2;
+}
+
+.surprise-card__btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(var(--dynamic-accent-rgb), 0.5);
+}
+
+.surprise-card__btn:active {
+    transform: scale(0.98);
+}
+
 /* --- MOBILE --- */
 @media (max-width: 768px) {
     .ai-picks-page {

@@ -13,13 +13,18 @@ const AiPicksPage = {
                 <!-- Surprise Me Section -->
                 <section class="ai-section surprise-section">
                     <div class="ai-section__inner">
-                        <div class="surprise-card glass">
-                            <div class="surprise-card__icon">🎲</div>
-                            <h2>Surprise Me</h2>
-                            <p>Can't decide what to watch? Let fate choose for you!</p>
-                            <button class="btn btn-accent btn-lg" id="surprise-btn" onclick="AiPicksPage.surpriseMe()">
-                                <span>Pick a Random Movie</span>
-                            </button>
+                        <div class="surprise-card">
+                            <div class="surprise-card__inner glass">
+                                <div class="surprise-card__glow"></div>
+                                <div class="surprise-card__content">
+                                    <div class="surprise-card__icon" id="dice-container">🎲</div>
+                                    <h2 class="surprise-card__title">Surprise Me</h2>
+                                    <p class="surprise-card__desc">Can't decide what to watch? Let fate choose for you!</p>
+                                    <button class="btn btn-accent btn-lg surprise-card__btn" id="surprise-btn" onclick="AiPicksPage.surpriseMe()">
+                                        <span>Pick a Random Movie</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -58,8 +63,11 @@ const AiPicksPage = {
     // --- SURPRISE ME ---
     async surpriseMe() {
         const btn = document.getElementById('surprise-btn');
-        btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px"></div> <span>Rolling the dice...</span>';
+        const dice = document.getElementById('dice-container');
+        
+        btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px"></div> <span>Rolling...</span>';
         btn.disabled = true;
+        if (dice) dice.classList.add('rolling');
 
         try {
             // Pick a random page (1-20) of popular movies
@@ -85,6 +93,7 @@ const AiPicksPage = {
 
         btn.innerHTML = '<span>Pick a Random Movie</span>';
         btn.disabled = false;
+        if (dice) dice.classList.remove('rolling');
     },
 
     // --- FILL PROMPT ---
