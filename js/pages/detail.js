@@ -184,19 +184,29 @@ const DetailPage = {
 
             container.innerHTML = `
                 <div class="episode-grid">
-                    ${episodes.map(ep => `
-                        <div class="episode-card" onclick="App.navigateToWatch(${tvId}, 'tv', ${seasonNumber}, ${ep.episode_number})">
-                            <div class="episode-card__number">${ep.episode_number}</div>
-                            <div class="episode-card__info">
-                                <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
-                                <div class="episode-card__meta">
-                                    ${ep.runtime ? `${ep.runtime}m` : ''}
-                                    ${ep.air_date ? ` • ${ep.air_date}` : ''}
-                                    ${ep.vote_average ? ` • ⭐ ${API.formatRating(ep.vote_average)}` : ''}
+                    ${episodes.map(ep => {
+                        const stillUrl = ep.still_path ? CONFIG.getImageUrl(ep.still_path, 'backdrop_sm') : '';
+                        return `
+                            <div class="episode-card" onclick="App.navigateToWatch(${tvId}, 'tv', ${seasonNumber}, ${ep.episode_number})">
+                                <div class="episode-card__image-container">
+                                    ${stillUrl 
+                                        ? `<img class="episode-card__img" src="${stillUrl}" alt="${ep.name}" loading="lazy">` 
+                                        : `<div class="episode-card__img-placeholder">${Components.icons.film}</div>`}
+                                    <div class="episode-card__play-btn">${Components.icons.play}</div>
+                                    <div class="episode-card__number-badge">${ep.episode_number}</div>
+                                </div>
+                                <div class="episode-card__info">
+                                    <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
+                                    <div class="episode-card__meta">
+                                        ${ep.runtime ? `<span>${ep.runtime}m</span>` : ''}
+                                        ${ep.air_date ? `<span> • ${ep.air_date}</span>` : ''}
+                                        ${ep.vote_average ? `<span class="episode-card__vote"> • ⭐ ${API.formatRating(ep.vote_average)}</span>` : ''}
+                                    </div>
+                                    ${ep.overview ? `<p class="episode-card__overview">${ep.overview.slice(0, 100)}${ep.overview.length > 100 ? '...' : ''}</p>` : ''}
                                 </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             `;
         } catch (error) {
