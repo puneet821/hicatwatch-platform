@@ -339,13 +339,14 @@ input {
     left: 50%;
     transform: translateX(-50%);
     width: min(92%, 1100px);
-    height: 56px;
+    height: 64px;
+    border-radius: 32px;
     z-index: var(--z-navbar);
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(0, 0, 0, 0.05); /* Lighter border for light bg */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: rgba(20, 20, 25, 0.4);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     transition: all 0.4s var(--ease-smooth);
 }
 
@@ -389,11 +390,12 @@ input {
 
 .navbar.scrolled {
     top: 12px;
-    background: rgba(10, 10, 20, 0.65);
-    backdrop-filter: blur(30px) saturate(200%);
-    -webkit-backdrop-filter: blur(30px) saturate(200%);
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(15, 15, 20, 0.85);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    width: min(95%, 1150px);
 }
 
 .navbar__inner {
@@ -490,6 +492,7 @@ input {
 
 .navbar__link:hover {
     color: var(--text-white);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .navbar__link.active {
