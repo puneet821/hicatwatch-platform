@@ -39,12 +39,13 @@ const Components = {
         const wideClass = wide ? 'movie-card--wide' : '';
 
         return `
-            <div class="movie-card ${wideClass}" data-id="${item.id}" data-type="${mediaType}" onclick="App.navigateToDetail(${item.id}, '${mediaType}')">
+            <div class="movie-card ${wideClass}" data-id="${item.id}" data-type="${mediaType}" onclick="App.navigateToDetail(${item.id}, '${mediaType}')" onmouseenter="Components.handleCardHover(this, ${item.id}, '${mediaType}')" onmouseleave="Components.handleCardLeave(this)">
                 <div class="movie-card__poster-wrap">
                     ${imgSrc
                         ? `<img class="movie-card__poster" src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">`
                         : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-tertiary)">${this.icons.film}</div>`
                     }
+                    <div class="movie-card__trailer-container"></div>
                     <div class="movie-card__overlay"></div>
                     <div class="movie-card__play">${this.icons.play}</div>
                     ${item.vote_average ? `
@@ -59,6 +60,62 @@ const Components = {
                 <div class="movie-card__year">${year}${mediaType === 'tv' ? ' • TV' : ''}</div>
             </div>
         `;
+    },
+
+    handleCardHover(cardEl, id, type) {
+        // Clear pending leave
+        if (cardEl.dataset.leaveTimeout) {
+            clearTimeout(cardEl.dataset.leaveTimeout);
+        }
+
+        cardEl.dataset.isHovered = 'true';
+
+        // 800ms hover delay
+        const timeout = setTimeout(async () => {
+            const container = cardEl.querySelector('.movie-card__trailer-container');
+            if (!container || container.innerHTML !== '') {
+                if (container && container.innerHTML !== '') container.classList.add('visible');
+                return;
+            }
+
+            try {
+                const details = type === 'tv' ? await API.getTVDetails(id) : await API.getMovieDetails(id);
+                const trailerKey = API.getTrailerKey(details.videos);
+
+                if (trailerKey && cardEl.dataset.isHovered === 'true') {
+                    container.innerHTML = `
+                        <iframe 
+                            class="movie-card__trailer-iframe"
+                            src="https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&showinfo=0&loop=1&playlist=${trailerKey}" 
+                            frameborder="0" 
+                            allow="autoplay; encrypted-media" 
+                            allowfullscreen>
+                        </iframe>
+                    `;
+                    container.classList.add('visible');
+                }
+            } catch (e) {
+                console.error("Trailer load error", e);
+            }
+        }, 800);
+        
+        cardEl.dataset.hoverTimeout = timeout;
+    },
+
+    handleCardLeave(cardEl) {
+        cardEl.dataset.isHovered = 'false';
+        
+        if (cardEl.dataset.hoverTimeout) {
+            clearTimeout(cardEl.dataset.hoverTimeout);
+        }
+
+        const container = cardEl.querySelector('.movie-card__trailer-container');
+        if (container) {
+            container.classList.remove('visible');
+            cardEl.dataset.leaveTimeout = setTimeout(() => {
+                container.innerHTML = '';
+            }, 300);
+        }
     },
 
     // --- Content Row (horizontal scroll) ---
