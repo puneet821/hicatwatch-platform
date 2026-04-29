@@ -80,7 +80,7 @@
     --art-border: rgba(0,0,0,0.1);
 
     --logo-main: #ffffff;
-    --logo-sub: #F107A3; /* Updated to a more premium neon pink */
+    --logo-sub: var(--dynamic-accent);
 
     /* Z-index layers */
     --z-base: 1;
