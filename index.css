@@ -28,7 +28,7 @@
     /* Logo colors */
     --logo-main: #ffffff;
     --logo-sub: var(--dynamic-accent);
-    --logo-gradient: linear-gradient(135deg, var(--dynamic-accent) 0%, #F107A3 100%);
+    --logo-gradient: linear-gradient(135deg, var(--dynamic-accent) 0%, rgba(var(--dynamic-accent-rgb), 0.6) 100%);
     --logo-glow: 0 0 20px rgba(123, 47, 247, 0.4);
 
     /* Glass */
@@ -385,7 +385,7 @@ input {
 }
 
 .theme-artistic .navbar:not(.scrolled) .logo-text__sub {
-    color: #F107A3;
+    color: var(--dynamic-accent);
 }
 
 .navbar.scrolled {
