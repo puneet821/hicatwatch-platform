@@ -353,7 +353,7 @@ const App = {
         }
 
         // Reset page title
-        document.title = 'CatWatch — Stream Movies & TV Shows';
+        document.title = 'HiCat Movies — Stream Movies & TV Shows';
 
         console.info(`Router Match: [${handler}]`, params);
 

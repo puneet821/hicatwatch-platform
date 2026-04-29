@@ -195,7 +195,7 @@ const Components = {
                             <div class="hero__watch-main">
                                 <span class="hero__watch-label">NEW SEASON</span>
                                 <h2 class="hero__watch-title">WATCH<br>NOW</h2>
-                                <span class="hero__watch-extra">ON CATWATCH</span>
+                                <span class="hero__watch-extra">ON HICAT MOVIES</span>
                             </div>
                         </div>
                     </div>

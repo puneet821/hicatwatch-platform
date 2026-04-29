@@ -58,7 +58,7 @@ const Connect = {
     renderSetupUI() {
         return `
             <div class="connect-panel__header">
-                <h3>CatWatch Sync</h3>
+                <h3>HiCat Movies Sync</h3>
                 <button onclick="Connect.toggleConnectPanel()">✕</button>
             </div>
             <div class="connect-panel__body">
