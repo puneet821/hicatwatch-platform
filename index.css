@@ -1419,6 +1419,37 @@ input {
     font-size: 0.85rem;
 }
 
+.spin-icon {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.btn-icon.downloading {
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.download-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(229, 9, 20, 0.3);
+    width: 0%;
+    transition: width 0.3s ease;
+    z-index: 0;
+}
+
+.btn-icon.downloading svg {
+    position: relative;
+    z-index: 1;
+}
+
 /* --- CONTENT ROWS --- */
 .content-section {
     padding: 0 var(--content-padding);

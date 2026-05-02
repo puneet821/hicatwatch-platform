@@ -8,6 +8,7 @@ const Storage = {
         HISTORY: 'catwatch_history',
         PREFERENCES: 'catwatch_preferences',
         SEARCH_HISTORY: 'catwatch_search_history',
+        DOWNLOADS: 'catwatch_downloads',
     },
 
     // --- Generic helpers ---
@@ -116,4 +117,37 @@ const Storage = {
         prefs[key] = value;
         this._set(this.KEYS.PREFERENCES, prefs);
     },
+
+    // --- Downloads ---
+    getDownloads() {
+        return this._get(this.KEYS.DOWNLOADS) || [];
+    },
+
+    addDownload(item) {
+        let downloads = this.getDownloads();
+        // Remove if already exists
+        downloads = downloads.filter(i => !(i.id === item.id && i.media_type === item.media_type && i.season === item.season && i.episode === item.episode));
+        
+        downloads.unshift({
+            id: item.id,
+            title: item.title || API.getTitle(item),
+            poster_path: item.poster_path,
+            media_type: item.media_type || (item.first_air_date ? 'tv' : 'movie'),
+            downloaded_at: Date.now(),
+            season: item.season || null,
+            episode: item.episode || null,
+        });
+
+        this._set(this.KEYS.DOWNLOADS, downloads);
+    },
+
+    removeDownload(id, mediaType, season = null, episode = null) {
+        let downloads = this.getDownloads();
+        downloads = downloads.filter(i => !(i.id === id && i.media_type === mediaType && i.season === season && i.episode === episode));
+        this._set(this.KEYS.DOWNLOADS, downloads);
+    },
+
+    isDownloaded(id, mediaType, season = null, episode = null) {
+        return this.getDownloads().some(i => i.id === id && i.media_type === mediaType && i.season === season && i.episode === episode);
+    }
 };

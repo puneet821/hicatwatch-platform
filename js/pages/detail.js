@@ -93,6 +93,9 @@ const DetailPage = {
                                     <button class="btn-icon ${isInWatchlist ? 'active' : ''}" id="watchlist-btn" data-id="${data.id}" data-type="${mediaType}" onclick="DetailPage.toggleWatchlist(this)">
                                         ${isInWatchlist ? Components.icons.check : Components.icons.plus}
                                     </button>
+                                    <button class="btn-icon ${Storage.isDownloaded(data.id, type) ? 'active' : ''}" onclick="DetailPage.startDownload(this, '${data.id}', '${type}')" title="Download ${type === 'tv' ? 'Series' : 'Movie'}">
+                                        ${Storage.isDownloaded(data.id, type) ? Components.icons.check : Components.icons.download}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -196,11 +199,20 @@ const DetailPage = {
                                     <div class="episode-card__number-badge">${ep.episode_number}</div>
                                 </div>
                                 <div class="episode-card__info">
-                                    <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
-                                    <div class="episode-card__meta">
-                                        ${ep.runtime ? `<span>${ep.runtime}m</span>` : ''}
-                                        ${ep.air_date ? `<span> • ${ep.air_date}</span>` : ''}
-                                        ${ep.vote_average ? `<span class="episode-card__vote"> • ⭐ ${API.formatRating(ep.vote_average)}</span>` : ''}
+                                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                        <div>
+                                            <div class="episode-card__title">${ep.name || `Episode ${ep.episode_number}`}</div>
+                                            <div class="episode-card__meta">
+                                                ${ep.runtime ? `<span>${ep.runtime}m</span>` : ''}
+                                                ${ep.air_date ? `<span> • ${ep.air_date}</span>` : ''}
+                                                ${ep.vote_average ? `<span class="episode-card__vote"> • ⭐ ${API.formatRating(ep.vote_average)}</span>` : ''}
+                                            </div>
+                                        </div>
+                                        <button class="btn-icon btn-icon--sm ${Storage.isDownloaded(tvId, 'tv', seasonNumber, ep.episode_number) ? 'active' : ''}" 
+                                            onclick="event.stopPropagation(); DetailPage.startDownload(this, '${tvId}', 'tv', ${seasonNumber}, ${ep.episode_number})" 
+                                            title="Download Episode">
+                                            ${Storage.isDownloaded(tvId, 'tv', seasonNumber, ep.episode_number) ? Components.icons.check : Components.icons.download}
+                                        </button>
                                     </div>
                                     ${ep.overview ? `<p class="episode-card__overview">${ep.overview.slice(0, 100)}${ep.overview.length > 100 ? '...' : ''}</p>` : ''}
                                 </div>
@@ -232,4 +244,47 @@ const DetailPage = {
             }
         }
     },
+
+    startDownload(btn, idStr, type, season = null, episode = null) {
+        const id = parseInt(idStr);
+        if (Storage.isDownloaded(id, type, season, episode)) {
+            // Remove download
+            Storage.removeDownload(id, type, season, episode);
+            btn.classList.remove('active');
+            btn.innerHTML = Components.icons.download;
+            Components.showToast('Removed from downloads', 'info');
+            return;
+        }
+
+        // Simulate downloading
+        btn.innerHTML = Components.icons.downloading;
+        btn.classList.add('downloading');
+        
+        let progress = 0;
+        const progressEl = document.createElement('div');
+        progressEl.className = 'download-progress-bar';
+        btn.appendChild(progressEl);
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 15 + 5;
+            if (progress >= 100) {
+                clearInterval(interval);
+                progress = 100;
+                
+                // Finish download
+                btn.innerHTML = Components.icons.check;
+                btn.classList.remove('downloading');
+                btn.classList.add('active');
+                
+                let dataToSave = this._currentData || { id, media_type: type };
+                if (season && episode) {
+                    dataToSave = { ...dataToSave, season, episode };
+                }
+                
+                Storage.addDownload(dataToSave);
+                Components.showToast('Download complete ✓', 'success');
+            }
+            progressEl.style.width = `${progress}%`;
+        }, 500);
+    }
 };
