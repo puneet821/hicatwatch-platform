@@ -19,6 +19,7 @@ const Router = {
             '/search/:query': 'search',
             '/collections': 'collections',
             '/ai-picks': 'ai-picks',
+            '/timemachine': 'timemachine',
             '/bollywood': 'bollywood',
             '/hollywood': 'hollywood',
 

@@ -373,6 +373,7 @@ const App = {
             case 'search':
             case 'collections':
             case 'ai-picks':
+            case 'timemachine':
             case 'bollywood':
             case 'hollywood':
 
@@ -410,6 +411,9 @@ const App = {
                 } else if (handler === 'ai-picks') {
                     this.currentPage = AiPicksPage;
                     await AiPicksPage.render();
+                } else if (handler === 'timemachine') {
+                    this.currentPage = TimeMachinePage;
+                    await TimeMachinePage.render();
                 } else if (handler === 'bollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('bollywood');

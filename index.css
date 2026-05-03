@@ -3664,3 +3664,155 @@ input {
     border: none;
 }
 
+/* =========================================
+   Time Machine Styles
+   ========================================= */
+.time-machine {
+    padding-top: 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-machine__header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.time-machine__title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #fff, var(--accent-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.time-machine__subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.time-machine__dial-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 40px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 50px;
+}
+
+.time-machine__dial {
+    display: flex;
+    gap: 10px;
+}
+
+.time-machine__dial-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.time-machine__dial-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.time-machine__dial-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 0 20px var(--accent-primary);
+}
+
+.time-machine__content {
+    width: 100%;
+}
+
+/* --- Theme Overrides for Decades --- */
+
+/* 1980s: Synthwave / Neon */
+body.theme-80s {
+    background-color: #0b0220; /* Deep purple */
+    background-image: 
+        linear-gradient(rgba(255, 0, 150, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center bottom;
+    --accent-primary: #ff0099; /* Neon pink */
+    --accent-secondary: #00ffff; /* Cyan */
+}
+body.theme-80s .time-machine__title {
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #ff0099, 0 0 20px #00ffff;
+    letter-spacing: 5px;
+    -webkit-text-fill-color: #fff;
+}
+body.theme-80s .movie-card {
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    border-radius: 0;
+}
+
+/* 1990s: Grunge / CRT */
+body.theme-90s {
+    background-color: #1a1a1a;
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    ); /* CRT Scanlines */
+    --accent-primary: #ffcc00; /* Yellow */
+}
+body.theme-90s .time-machine__title {
+    font-family: 'Impact', sans-serif;
+    transform: skewX(-10deg);
+    color: #ffcc00;
+    -webkit-text-fill-color: #ffcc00;
+    text-shadow: 3px 3px 0 #ff0000;
+}
+body.theme-90s .movie-card {
+    border: 3px solid #fff;
+    border-radius: 5px;
+}
+
+/* 2000s: Y2K / Metallic */
+body.theme-2000s {
+    background: radial-gradient(circle at top, #003366, #000);
+    --accent-primary: #00ffcc;
+}
+body.theme-2000s .time-machine__title {
+    font-family: 'Verdana', sans-serif;
+    color: silver;
+    -webkit-text-fill-color: silver;
+    text-shadow: 0 0 5px #fff, 0 0 10px #00ffcc;
+}
+body.theme-2000s .movie-card {
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 2010s: Clean Dark */
+body.theme-2010s {
+    background-color: #121212;
+    --accent-primary: #1db954; /* Spotify-like green */
+}
+body.theme-2010s .time-machine__title {
+    font-weight: 300;
+    letter-spacing: -1px;
+}
+
