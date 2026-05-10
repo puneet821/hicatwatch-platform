@@ -1,5 +1,5 @@
 /* ============================================================
-   FlixStream — Watch / Player Page
+   HiCat Movies — Watch / Player Page
    ============================================================ */
 
 const WatchPage = {
@@ -246,7 +246,7 @@ const WatchPage = {
             `;
 
             // Update page title
-            document.title = `${title} — FlixStream`;
+            document.title = `${title} — HiCat Movies`;
 
             // Run auto-check in background
             setTimeout(() => this.autoCheckServers(type, id, season, episode), 500);

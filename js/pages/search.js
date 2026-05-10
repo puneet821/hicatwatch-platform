@@ -1,5 +1,5 @@
 /* ============================================================
-   FlixStream — Search Results Page
+   HiCat Movies — Search Results Page
    ============================================================ */
 
 const SearchPage = {

@@ -1,5 +1,5 @@
 /* ============================================================
-   FlixStream — Movie/TV Detail Page
+   HiCat Movies — Movie/TV Detail Page
    ============================================================ */
 
 const DetailPage = {

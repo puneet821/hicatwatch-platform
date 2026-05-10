@@ -1,5 +1,5 @@
 /* ============================================================
-   FlixStream — Browse / Discover Page
+   HiCat Movies — Browse / Discover Page
    ============================================================ */
 
 const BrowsePage = {
