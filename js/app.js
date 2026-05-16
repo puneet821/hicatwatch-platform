@@ -376,6 +376,7 @@ const App = {
             case 'timemachine':
             case 'bollywood':
             case 'hollywood':
+            case 'sports':
 
                 document.body.classList.remove('theme-artistic');
                 // Use a helper to avoid duplication if possible, but keeping it simple for now
@@ -411,15 +412,15 @@ const App = {
                 } else if (handler === 'ai-picks') {
                     this.currentPage = AiPicksPage;
                     await AiPicksPage.render();
-                } else if (handler === 'timemachine') {
-                    this.currentPage = TimeMachinePage;
-                    await TimeMachinePage.render();
                 } else if (handler === 'bollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('bollywood');
                 } else if (handler === 'hollywood') {
                     this.currentPage = BrowsePage;
                     await BrowsePage.render('hollywood');
+                } else if (handler === 'sports') {
+                    this.currentPage = SportsPage;
+                    await SportsPage.render(params.type);
                 }
                 
                 // Reset dynamic theme for generic pages
