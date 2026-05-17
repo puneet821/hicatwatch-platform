@@ -1,9 +1,10 @@
 import http.server
 import socketserver
 import urllib.request
+import os
 from urllib.error import HTTPError, URLError
 
-PORT = 8001
+PORT = int(os.environ.get("PORT", 8001))
 
 class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def end_headers(self):
