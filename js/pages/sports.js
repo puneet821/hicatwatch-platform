@@ -312,6 +312,35 @@ const SportsPage = {
                             document.addEventListener('touchstart', playOnTap);
                         });
                     });
+
+                    this.hls.on(Hls.Events.ERROR, (event, data) => {
+                        if (data.fatal) {
+                            console.log("Fatal Hls.js error in Sports Page:", data.type);
+                            switch (data.type) {
+                                case Hls.ErrorTypes.NETWORK_ERROR:
+                                    this.hls.startLoad();
+                                    break;
+                                case Hls.ErrorTypes.MEDIA_ERROR:
+                                    this.hls.recoverMediaError();
+                                    break;
+                                default:
+                                    console.log("Hls.js failed. Falling back to native HLS...");
+                                    this.hls.destroy();
+                                    this.hls = null;
+                                    video.src = server.url;
+                                    video.play().catch(err => {
+                                        const playOnTap = () => {
+                                            video.play().catch(e => console.log(e));
+                                            document.removeEventListener('click', playOnTap);
+                                            document.removeEventListener('touchstart', playOnTap);
+                                        };
+                                        document.addEventListener('click', playOnTap);
+                                        document.addEventListener('touchstart', playOnTap);
+                                    });
+                                    break;
+                            }
+                        }
+                    });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                     video.src = server.url;
                     video.addEventListener('loadedmetadata', () => {

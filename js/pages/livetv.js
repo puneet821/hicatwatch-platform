@@ -271,6 +271,7 @@ window.LiveTvPage = {
             
             this.hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
+                    console.log("Fatal Hls.js error in Live TV:", data.type);
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
                             this.hls.startLoad();
@@ -279,7 +280,19 @@ window.LiveTvPage = {
                             this.hls.recoverMediaError();
                             break;
                         default:
+                            console.log("Hls.js failed in Live TV. Falling back to native HLS...");
                             this.hls.destroy();
+                            this.hls = null;
+                            video.src = url;
+                            video.play().catch(err => {
+                                const playOnTap = () => {
+                                    video.play().catch(e => console.log(e));
+                                    document.removeEventListener('click', playOnTap);
+                                    document.removeEventListener('touchstart', playOnTap);
+                                };
+                                document.addEventListener('click', playOnTap);
+                                document.addEventListener('touchstart', playOnTap);
+                            });
                             break;
                     }
                 }
