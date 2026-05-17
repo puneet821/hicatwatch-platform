@@ -27,14 +27,21 @@ const CONFIG = {
 
     // Embed sources (fallback order)
     EMBED_SOURCES: [
-        { name: 'Server 1 (Global Hub)', base: 'https://vidsrc.vip/embed' },
-        { name: 'Server 2 (Resilient Mirror)', base: 'https://vidsrc.uno/embed' },
-        { name: 'Server 3 (Pro Stealth)', base: 'https://vidsrc.pro/embed' },
-        { name: 'Server 4 (VIP Backup)', base: 'https://vidsrc.net/embed' },
+        { name: 'Server 1 (VidEasy)', base: 'https://player.videasy.net' },
+        { name: 'Server 2 (vidsrc.ru)', base: 'https://vidsrc-embed.ru' },
+        { name: 'Server 3 (vsrc.su)', base: 'https://vsrc.su' },
+        { name: 'Server 4 (vidsrc.pm)', base: 'https://vidsrc.pm/embed' },
         { name: 'Server 5 (Edge Cluster)', base: 'https://vidsrc.icu/embed' },
         { name: 'Server 6 (Legacy v3)', base: 'https://vidsrc.cc/v3/embed' },
         { name: 'Server 7 (MKV Stream)', base: 'https://vidsrc.pm/embed' },
         { name: 'Server 8 (UpCloud Relay)', base: 'https://vidsrc.to/embed' },
+        { name: 'Server 9 (VidFast Pro)', base: 'https://vidfast.pro' },
+        { name: 'Server 10 (VidKing Net)', base: 'https://www.vidking.net/embed' },
+        { name: 'Server 11 (VidUp To)', base: 'https://vidup.to' },
+        { name: 'Server 12 (MoviesAPI Club)', base: 'https://moviesapi.club' },
+        { name: 'Server 13 (VidLink Pro)', base: 'https://vidlink.pro' },
+        { name: 'Server 14 (VidSrc XYZ)', base: 'https://vidsrc.xyz/embed' },
+        { name: 'Server 15 (VidSrc.to Backup)', base: 'https://vidsrc.to/embed' },
     ],
 
     // Default embed source index
@@ -97,6 +104,12 @@ const CONFIG = {
         if (source.base.includes('2embed')) {
             return `${source.base}/${tmdbId}`;
         }
+        if (source.base.includes('vidlink.pro')) {
+            return `${source.base}/movie/${tmdbId}?primaryColor=ce9fff&secondaryColor=ce9fff&iconColor=ce9fff`;
+        }
+        if (source.base.includes('vidsrc.xyz')) {
+            return `${source.base}/movie?tmdb=${tmdbId}&ds_lang=en`;
+        }
         return `${source.base}/movie/${tmdbId}`;
     },
 
@@ -106,6 +119,12 @@ const CONFIG = {
         // Handle specific provider formats
         if (source.base.includes('2embed')) {
             return `${source.base}/tv?id=${tmdbId}&s=${season}&e=${episode}`;
+        }
+        if (source.base.includes('vidlink.pro')) {
+            return `${source.base}/tv/${tmdbId}/${season}/${episode}?primaryColor=ce9fff&secondaryColor=ce9fff&iconColor=ce9fff`;
+        }
+        if (source.base.includes('vidsrc.xyz')) {
+            return `${source.base}/tv?tmdb=${tmdbId}&s=${season}&e=${episode}&ds_lang=en`;
         }
         return `${source.base}/tv/${tmdbId}/${season}/${episode}`;
     },

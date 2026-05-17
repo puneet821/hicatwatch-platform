@@ -9,6 +9,7 @@ const Router = {
     // Define routes
     init() {
         this.routes = {
+            '/live': 'livetv',
             '/': 'home',
             '/movie/:id': 'movieDetail',
             '/tv/:id': 'tvDetail',
@@ -23,7 +24,6 @@ const Router = {
             '/hollywood': 'hollywood',
             '/sports': 'sports',
             '/sports/:type': 'sports',
-
         };
 
         // Prevent multiple listeners if init is called twice

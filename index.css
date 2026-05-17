@@ -338,7 +338,7 @@ input {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: min(92%, 1100px);
+    width: min(95%, 1280px);
     height: 64px;
     border-radius: 32px;
     z-index: var(--z-navbar);
@@ -395,7 +395,7 @@ input {
     -webkit-backdrop-filter: blur(32px) saturate(200%);
     border-color: rgba(255, 255, 255, 0.12);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    width: min(95%, 1150px);
+    width: min(95%, 1280px);
 }
 
 .navbar__inner {
@@ -477,7 +477,7 @@ input {
 .navbar__links {
     display: flex;
     align-items: center;
-    gap: 4px; /* Reduced gap to fit more items */
+    gap: 12px;
 }
 
 .navbar__link {
@@ -536,11 +536,13 @@ input {
     z-index: 10;
 }
 
-/* Responsive Navbar Refinement */
 @media (max-width: 1100px) {
     .navbar__link {
         padding: 8px 12px;
         font-size: 0.8rem;
+    }
+    .navbar__links {
+        gap: 6px;
     }
     .navbar__inner {
         padding: 0 16px;
@@ -1587,7 +1589,7 @@ input {
 /* --- MOVIE CARD --- */
 .movie-card {
     flex-shrink: 0;
-    width: 200px;
+    width: 210px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     scroll-snap-align: start;
@@ -2274,8 +2276,8 @@ input {
 /* Content Grid */
 .content-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 24px;
 }
 
 .content-grid .movie-card {
@@ -2451,7 +2453,7 @@ input {
 
 .skeleton-card {
     flex-shrink: 0;
-    width: 200px;
+    width: 210px;
 }
 
 .skeleton-poster {
@@ -2721,7 +2723,7 @@ input {
     }
 
     .content-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
         gap: 16px;
     }
 }
@@ -2818,12 +2820,12 @@ input {
     }
 
     .content-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
         gap: 12px;
     }
 
     .movie-card {
-        width: 150px;
+        width: 160px;
     }
 
     .movie-card--wide {
@@ -4100,3 +4102,284 @@ body.theme-2010s .time-machine__title {
     .stream-header { flex-direction: column; align-items: flex-start; }
     .stream-title { font-size: 1.4rem; }
 }
+
+/* --- LIVE TV PAGE --- */
+.livetv-page {
+    padding-top: calc(var(--navbar-height) + 40px);
+    padding-bottom: 80px;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding-left: var(--content-padding);
+    padding-right: var(--content-padding);
+}
+
+.livetv-hero {
+    margin-bottom: 50px;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, rgba(var(--dynamic-accent-rgb), 0.15) 0%, rgba(10, 10, 15, 0.4) 100%),
+                url('images/livetv_hero_banner.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--radius-2xl);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.livetv-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--bg-primary) 30%, rgba(var(--bg-primary), 0.8) 60%, transparent 100%),
+                linear-gradient(to top, var(--bg-primary) 0%, transparent 50%);
+}
+
+.livetv-hero__content {
+    position: relative;
+    z-index: 2;
+    max-width: 500px;
+}
+
+.livetv-hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 12px 0;
+    line-height: 1.1;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: var(--accent-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 900;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.livetv-categories {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+}
+
+.livetv-cat {
+    padding: 10px 24px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    border-radius: 30px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+}
+
+.livetv-cat.active {
+    background: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 15px rgba(var(--dynamic-accent-rgb), 0.3);
+}
+
+.channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.channel-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    border: 1px solid var(--glass-border);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.channel-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-primary);
+    background: rgba(var(--dynamic-accent-rgb), 0.05);
+}
+
+.channel-card__logo-wrap {
+    width: 90px;
+    height: 90px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s var(--ease-smooth);
+}
+
+.channel-card:hover .channel-card__logo-wrap {
+    transform: scale(1.05) rotate(3deg);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.channel-logo-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.channel-logo-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+}
+
+.channel-logo-icon {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+    opacity: 0.85;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.channel-logo-text {
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    font-family: var(--font-logo);
+}
+
+.channel-card__logo {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 2;
+}
+
+.channel-card__logo.loaded {
+    opacity: 1;
+}
+
+.channel-card__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.channel-card__meta {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.channel-card__play {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    background: var(--accent-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all var(--transition-normal);
+}
+
+.channel-card:hover .channel-card__play {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.livetv-disclaimer {
+    margin-top: 60px;
+    text-align: center;
+    padding: 30px;
+    background: rgba(255,255,255,0.02);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--glass-border);
+}
+
+.livetv-disclaimer p {
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+}
+
+.livetv-search {
+    position: relative;
+    max-width: 600px;
+    margin-top: 32px;
+}
+
+#livetv-search-input {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    color: white;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+}
+
+#livetv-search-input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px rgba(var(--dynamic-accent-rgb), 0.2);
+    outline: none;
+}
+
+.livetv-search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    pointer-events: none;
+}
+
+.channel-card__number {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 2px 8px;
+    background: rgba(var(--dynamic-accent-rgb), 0.1);
+    color: var(--accent-primary);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    border: 1px solid rgba(var(--dynamic-accent-rgb), 0.2);
+}
+

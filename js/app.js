@@ -355,6 +355,9 @@ const App = {
         // Reset page title
         document.title = 'HiCat Movies — Stream Movies & TV Shows';
 
+        // Reset dynamic theme so colors don't bleed over from detail pages
+        this._resetDynamicTheme();
+
         console.info(`Router Match: [${handler}]`, params);
 
         switch (handler) {
@@ -373,14 +376,16 @@ const App = {
             case 'search':
             case 'collections':
             case 'ai-picks':
-            case 'timemachine':
             case 'bollywood':
             case 'hollywood':
             case 'sports':
+            case 'livetv':
 
                 document.body.classList.remove('theme-artistic');
-                // Use a helper to avoid duplication if possible, but keeping it simple for now
-                if (handler === 'movieDetail') {
+                if (handler === 'livetv') {
+                    this.currentPage = window.LiveTvPage;
+                    await window.LiveTvPage.render();
+                } else if (handler === 'movieDetail') {
                     this.currentPage = DetailPage;
                     await DetailPage.render('movie', params.id);
                 } else if (handler === 'tvDetail') {
