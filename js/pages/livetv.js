@@ -197,7 +197,7 @@ window.LiveTvPage = {
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="watch-page page-enter">
-                <div class="watch__player-wrap" style="position:relative; background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
+                <div class="watch__player-wrap" style="background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
                     ${isIframe ? `
                         <iframe 
                             src="${channel.url}" 
@@ -211,13 +211,6 @@ window.LiveTvPage = {
                         ></iframe>
                     ` : `
                         <video id="live-player" controls playsinline webkit-playsinline preload="auto" style="width:100%; height:100%; object-fit: contain;"></video>
-                        <div id="player-overlay" onclick="window.LiveTvPage.startPlayback()" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; z-index:10; transition: opacity 0.3s ease;">
-                            <div class="play-overlay-btn" style="width:72px; height:72px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 25px rgba(229, 9, 20, 0.5); margin-bottom:14px; transition: transform 0.2s ease;">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="color:#fff; margin-left:4px;"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            <span style="color:#fff; font-weight:600; font-size:1.15rem; letter-spacing:0.5px; text-shadow:0 2px 4px rgba(0,0,0,0.8)">Tap to Start Stream</span>
-                            <span style="color:var(--text-secondary); font-size:0.85rem; margin-top:6px;">Ch. ${channel.id} • ${channel.name}</span>
-                        </div>
                     `}
                 </div>
                 <div class="watch__info">
@@ -247,34 +240,6 @@ window.LiveTvPage = {
         window.scrollTo(0, 0);
     },
 
-    startPlayback() {
-        const video = document.getElementById('live-player');
-        const overlay = document.getElementById('player-overlay');
-        if (video) {
-            video.play()
-                .then(() => {
-                    if (overlay) {
-                        overlay.style.opacity = '0';
-                        setTimeout(() => {
-                            overlay.style.display = 'none';
-                        }, 300);
-                    }
-                })
-                .catch(err => {
-                    console.log("Playback failed even after tap, trying muted:", err);
-                    video.muted = true;
-                    video.play().then(() => {
-                        if (overlay) {
-                            overlay.style.opacity = '0';
-                            setTimeout(() => {
-                                overlay.style.display = 'none';
-                            }, 300);
-                        }
-                    });
-                });
-        }
-    },
-
     initPlayer(url) {
         const video = document.getElementById('live-player');
         if (!video) return;
@@ -292,22 +257,20 @@ window.LiveTvPage = {
             this.hls.loadSource(url);
             this.hls.attachMedia(video);
             this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play()
-                    .then(() => {
-                        const overlay = document.getElementById('player-overlay');
-                        if (overlay) {
-                            overlay.style.opacity = '0';
-                            setTimeout(() => overlay.style.display = 'none', 300);
-                        }
-                    })
-                    .catch(e => {
-                        console.log("Autoplay blocked, showing play overlay...");
-                    });
+                video.play().catch(e => {
+                    console.log("Autoplay blocked on Android Live TV, waiting for user tap...");
+                    const playOnTap = () => {
+                        video.play().catch(err => console.log(err));
+                        document.removeEventListener('click', playOnTap);
+                        document.removeEventListener('touchstart', playOnTap);
+                    };
+                    document.addEventListener('click', playOnTap);
+                    document.addEventListener('touchstart', playOnTap);
+                });
             });
             
             this.hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
-                    console.log("Fatal Hls.js error in Live TV:", data.type);
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
                             this.hls.startLoad();
@@ -316,21 +279,7 @@ window.LiveTvPage = {
                             this.hls.recoverMediaError();
                             break;
                         default:
-                            console.log("Hls.js failed in Live TV. Falling back to native HLS...");
                             this.hls.destroy();
-                            this.hls = null;
-                            video.src = url;
-                            video.play()
-                                .then(() => {
-                                    const overlay = document.getElementById('player-overlay');
-                                    if (overlay) {
-                                        overlay.style.opacity = '0';
-                                        setTimeout(() => overlay.style.display = 'none', 300);
-                                    }
-                                })
-                                .catch(err => {
-                                    console.log("Native fallback play blocked:", err);
-                                });
                             break;
                     }
                 }
@@ -338,17 +287,16 @@ window.LiveTvPage = {
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.addEventListener('loadedmetadata', () => {
-                video.play()
-                    .then(() => {
-                        const overlay = document.getElementById('player-overlay');
-                        if (overlay) {
-                            overlay.style.opacity = '0';
-                            setTimeout(() => overlay.style.display = 'none', 300);
-                        }
-                    })
-                    .catch(e => {
-                        console.log("Native Autoplay blocked, waiting for tap...");
-                    });
+                video.play().catch(e => {
+                    console.log("Native Autoplay blocked on Android Live TV, waiting for user tap...");
+                    const playOnTap = () => {
+                        video.play().catch(err => console.log(err));
+                        document.removeEventListener('click', playOnTap);
+                        document.removeEventListener('touchstart', playOnTap);
+                    };
+                    document.addEventListener('click', playOnTap);
+                    document.addEventListener('touchstart', playOnTap);
+                });
             });
         }
     }
