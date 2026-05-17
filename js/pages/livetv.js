@@ -5,8 +5,8 @@
 window.LiveTvPage = {
     channels: [
         // --- 100s: GENERAL ENTERTAINMENT ---
-        { id: '101', name: 'DD National', category: 'Entertainment', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20National.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/40492a64c1db4a1385ba1a397d357d3a/index.m3u8' },
-        { id: '103', name: 'Shemaroo TV', category: 'Entertainment', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Shemaroo_TV.png', url: 'https://cdn-3.pishow.tv/live/230/master.m3u8' },
+        { id: '101', name: 'DD National', category: 'Entertainment', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20National.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCwS2b9s01h5eG_H2v4B9xBg' },
+        { id: '103', name: 'Shemaroo TV', category: 'Entertainment', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Shemaroo_TV.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCppTzu3aHyfKz5M1A-k3W3g' },
         { id: '105', name: 'Oscar Movies', category: 'Movies', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Osar_Movies.png', url: 'https://cdn-4.pishow.tv/live/233/master.m3u8' },
         { id: '107', name: 'Sangeet Bangla', category: 'Music', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Sangeet%20Bangla.png', url: 'https://cdn-4.pishow.tv/live/1143/master.m3u8' },
 
@@ -16,17 +16,18 @@ window.LiveTvPage = {
         { id: '405', name: 'Willow Sports', category: 'Sports', logo: 'https://i.imgur.com/v7nSm7M.png', url: 'https://embedsports.top/embed/admin/admin-willow-cricket/1' },
         
         // --- 500s: NEWS ---
-        { id: '501', name: 'Aaj Tak', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Aaj%20Tak%20HD.png', url: 'https://feeds.intoday.in/aajtak/api/aajtakhd/master.m3u8' },
-        { id: '502', name: 'NDTV India', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_India.png', url: 'https://ndtvindiaelemarchana.akamaized.net/hls/live/2003679/ndtvindia/master.m3u8' },
-        { id: '503', name: 'India TV', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/India_TV.png', url: 'https://pl-indiatvnews.akamaized.net/out/v1/db79179b608641ceaa5a4d0dd0dca8da/index.m3u8' },
-        { id: '504', name: 'NDTV 24x7', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_24x7.png', url: 'https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/master.m3u8' },
-        { id: '505', name: 'DD News', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20News%20HD.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/0811cd8c37ca4c409d5385a6cd2fa18b/index.m3u8' },
-        { id: '506', name: 'Al Jazeera', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/AL_Jazeera.png', url: 'https://live-hls-web-aja.getaj.net/AJA/index.m3u8' },
+        { id: '501', name: 'Aaj Tak', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Aaj%20Tak%20HD.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCt4t-JeYMg5t0apLaF249CG' },
+        { id: '502', name: 'NDTV India', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_India.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCuZ4RL1707jiiquUxpV48eQ' },
+        { id: '503', name: 'India TV', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/India_TV.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCNoMNa6yT6z0_Evy9z_wGqQ' },
+        { id: '504', name: 'NDTV 24x7', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_24x7.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCgRvaltacKitOD157t5l_xA' },
+        { id: '505', name: 'DD News', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20News%20HD.png', url: 'https://www.youtube.com/embed/live_stream?channel=UC7G5E0t0WwsNf5v1_K-M2rA' },
+        { id: '506', name: 'Al Jazeera', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/AL_Jazeera.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqg5to-WMDsGDjIA' },
+        { id: '507', name: 'ABP News', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/ABP_News.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCmpZY57Nspx9N-qAilw1SFA' },
         
-        // --- 600s: KIDS ---
+        // --- 600s: KIDS & LIFESTYLE ---
         { id: '601', name: 'Mr. Bean Animated', category: 'Kids', logo: 'https://i.imgur.com/5RZ78WP.png', url: 'https://amg00627-amg00627c23-samsung-au-4110.playouts.now.amagi.tv/playlist.m3u8' },
         { id: '602', name: 'Chithiram TV', category: 'Kids', logo: 'https://dvdh7g0f0hwck.cloudfront.net/assets/images/channel/CHITHIRAM_Transparent_0a0a1cd6-cba5-4899-b22d-ce53fa1236dd.png', url: 'https://cdn-6.pishow.tv/live/1243/master.m3u8' },
-        { id: '603', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8' },
+        { id: '603', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCKnQbFiqq0hzcGd1aGzN1Ew' },
     ],
 
     hls: null,
