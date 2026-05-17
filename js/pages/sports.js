@@ -3,11 +3,19 @@
    ============================================================ */
 
 const SportsPage = {
+    hls: null,
+
     render(type) {
+        if (this.hls) {
+            this.hls.destroy();
+            this.hls = null;
+        }
+
         const app = document.getElementById('app');
         
         if (type === 'cricket') {
             this.renderCricket(app);
+            this.initPlayer('https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8');
         } else {
             this.renderSportsHome(app);
         }
@@ -93,16 +101,8 @@ const SportsPage = {
                         </div>
                     </div>
 
-                    <div class="video-player-wrapper glass">
-                        <iframe 
-                            src="https://embedsports.top/embed/admin/ppv-kolkata-knight-riders-vs-gujarat-titans/1" 
-                            class="sports-iframe"
-                            allowfullscreen="true" 
-                            frameborder="0" 
-                            scrolling="no"
-                            allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
-                            referrerpolicy="no-referrer"
-                        ></iframe>
+                    <div class="video-player-wrapper glass" style="background:#000; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; border-radius:12px; overflow:hidden;">
+                        <video id="sports-player" class="sports-video-element" controls style="width:100%; height:100%; object-fit:contain;"></video>
                     </div>
 
                     <div class="stream-details">
@@ -116,11 +116,36 @@ const SportsPage = {
                         </div>
                         <div class="detail-card glass">
                             <h3>Server</h3>
-                            <p>Main Stream (EmbedSports)</p>
+                            <p>Willow Sports HD (Main)</p>
                         </div>
                     </div>
                 </div>
             </div>
         `;
+    },
+
+    initPlayer(url) {
+        setTimeout(() => {
+            const video = document.getElementById('sports-player');
+            if (!video) return;
+
+            if (Hls.isSupported()) {
+                this.hls = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    backBufferLength: 90
+                });
+                this.hls.loadSource(url);
+                this.hls.attachMedia(video);
+                this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play().catch(err => console.log("Autoplay blocked:", err));
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', () => {
+                    video.play().catch(err => console.log("Autoplay blocked:", err));
+                });
+            }
+        }, 150);
     }
 };
