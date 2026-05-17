@@ -210,7 +210,7 @@ window.LiveTvPage = {
                             style="width:100%; height:100%; border:none;"
                         ></iframe>
                     ` : `
-                        <video id="live-player" controls style="width:100%; height:100%; object-fit: contain;"></video>
+                        <video id="live-player" controls playsinline webkit-playsinline preload="auto" style="width:100%; height:100%; object-fit: contain;"></video>
                     `}
                 </div>
                 <div class="watch__info">
@@ -250,14 +250,23 @@ window.LiveTvPage = {
 
         if (Hls.isSupported()) {
             this.hls = new Hls({
-                enableWorker: true,
+                enableWorker: false,
                 lowLatencyMode: true,
                 backBufferLength: 90
             });
             this.hls.loadSource(url);
             this.hls.attachMedia(video);
             this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(e => console.log("Auto-play blocked", e));
+                video.play().catch(e => {
+                    console.log("Autoplay blocked on Android Live TV, waiting for user tap...");
+                    const playOnTap = () => {
+                        video.play().catch(err => console.log(err));
+                        document.removeEventListener('click', playOnTap);
+                        document.removeEventListener('touchstart', playOnTap);
+                    };
+                    document.addEventListener('click', playOnTap);
+                    document.addEventListener('touchstart', playOnTap);
+                });
             });
             
             this.hls.on(Hls.Events.ERROR, (event, data) => {
@@ -278,7 +287,16 @@ window.LiveTvPage = {
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.addEventListener('loadedmetadata', () => {
-                video.play();
+                video.play().catch(e => {
+                    console.log("Native Autoplay blocked on Android Live TV, waiting for user tap...");
+                    const playOnTap = () => {
+                        video.play().catch(err => console.log(err));
+                        document.removeEventListener('click', playOnTap);
+                        document.removeEventListener('touchstart', playOnTap);
+                    };
+                    document.addEventListener('click', playOnTap);
+                    document.addEventListener('touchstart', playOnTap);
+                });
             });
         }
     }

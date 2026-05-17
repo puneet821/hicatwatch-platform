@@ -285,7 +285,7 @@ const SportsPage = {
             `;
         } else {
             container.innerHTML = `
-                <video id="sports-player" class="sports-video-element" controls style="width:100%; height:100%; object-fit:contain; border-radius:12px;"></video>
+                <video id="sports-player" class="sports-video-element" controls playsinline webkit-playsinline preload="auto" style="width:100%; height:100%; object-fit:contain; border-radius:12px;"></video>
             `;
             
             setTimeout(() => {
@@ -294,19 +294,37 @@ const SportsPage = {
 
                 if (Hls.isSupported()) {
                     this.hls = new Hls({
-                        enableWorker: true,
+                        enableWorker: false,
                         lowLatencyMode: true,
                         backBufferLength: 90
                     });
                     this.hls.loadSource(server.url);
                     this.hls.attachMedia(video);
                     this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        video.play().catch(err => console.log("Autoplay blocked:", err));
+                        video.play().catch(err => {
+                            console.log("Autoplay blocked on Android, waiting for user interaction...");
+                            const playOnTap = () => {
+                                video.play().catch(e => console.log(e));
+                                document.removeEventListener('click', playOnTap);
+                                document.removeEventListener('touchstart', playOnTap);
+                            };
+                            document.addEventListener('click', playOnTap);
+                            document.addEventListener('touchstart', playOnTap);
+                        });
                     });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                     video.src = server.url;
                     video.addEventListener('loadedmetadata', () => {
-                        video.play().catch(err => console.log("Autoplay blocked:", err));
+                        video.play().catch(err => {
+                            console.log("Native Autoplay blocked on Android, waiting for user interaction...");
+                            const playOnTap = () => {
+                                video.play().catch(e => console.log(e));
+                                document.removeEventListener('click', playOnTap);
+                                document.removeEventListener('touchstart', playOnTap);
+                            };
+                            document.addEventListener('click', playOnTap);
+                            document.addEventListener('touchstart', playOnTap);
+                        });
                     });
                 }
             }, 100);
