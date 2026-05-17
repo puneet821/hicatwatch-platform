@@ -292,13 +292,16 @@ const SportsPage = {
                 const video = document.getElementById('sports-player');
                 if (!video) return;
 
+                // Use high-performance CORS proxy for HLS streams to bypass all strict PC browser blocks
+                const proxiedUrl = server.url.includes('.m3u8') ? `https://corsproxy.io/?${encodeURIComponent(server.url)}` : server.url;
+
                 if (Hls.isSupported()) {
                     this.hls = new Hls({
                         enableWorker: false,
                         lowLatencyMode: true,
                         backBufferLength: 90
                     });
-                    this.hls.loadSource(server.url);
+                    this.hls.loadSource(proxiedUrl);
                     this.hls.attachMedia(video);
                     this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
                         video.play().catch(err => {
@@ -327,7 +330,7 @@ const SportsPage = {
                                     console.log("Hls.js failed. Falling back to native HLS...");
                                     this.hls.destroy();
                                     this.hls = null;
-                                    video.src = server.url;
+                                    video.src = proxiedUrl;
                                     video.play().catch(err => {
                                         const playOnTap = () => {
                                             video.play().catch(e => console.log(e));
@@ -342,7 +345,7 @@ const SportsPage = {
                         }
                     });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = server.url;
+                    video.src = proxiedUrl;
                     video.addEventListener('loadedmetadata', () => {
                         video.play().catch(err => {
                             console.log("Native Autoplay blocked on Android, waiting for user interaction...");

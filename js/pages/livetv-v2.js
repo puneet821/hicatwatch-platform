@@ -248,13 +248,16 @@ window.LiveTvPage = {
             this.hls.destroy();
         }
 
+        // Use high-performance CORS proxy for HLS streams to bypass all strict PC browser blocks
+        const proxiedUrl = url.includes('.m3u8') ? `https://corsproxy.io/?${encodeURIComponent(url)}` : url;
+
         if (Hls.isSupported()) {
             this.hls = new Hls({
                 enableWorker: false,
                 lowLatencyMode: true,
                 backBufferLength: 90
             });
-            this.hls.loadSource(url);
+            this.hls.loadSource(proxiedUrl);
             this.hls.attachMedia(video);
             this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 video.play().catch(e => {
@@ -285,7 +288,7 @@ window.LiveTvPage = {
                 }
             });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = url;
+            video.src = proxiedUrl;
             video.addEventListener('loadedmetadata', () => {
                 video.play().catch(e => {
                     console.log("Native Autoplay blocked on Android Live TV, waiting for user tap...");
