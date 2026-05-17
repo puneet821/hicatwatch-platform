@@ -4,6 +4,12 @@
 
 const SportsPage = {
     hls: null,
+    currentServerIndex: 0,
+
+    servers: [
+        { name: 'Main Stream (EmbedSports)', type: 'iframe', url: 'https://embedsports.top/embed/admin/ppv-delhi-capitals-vs-rajasthan-royals/1' },
+        { name: 'Backup Stream (Willow TV HD)', type: 'hls', url: 'https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8' }
+    ],
 
     render(type) {
         if (this.hls) {
@@ -15,7 +21,7 @@ const SportsPage = {
         
         if (type === 'cricket') {
             this.renderCricket(app);
-            this.initPlayer('https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8');
+            this.loadMedia();
         } else {
             this.renderSportsHome(app);
         }
@@ -101,22 +107,28 @@ const SportsPage = {
                         </div>
                     </div>
 
-                    <div class="video-player-wrapper glass" style="background:#000; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; border-radius:12px; overflow:hidden;">
-                        <video id="sports-player" class="sports-video-element" controls style="width:100%; height:100%; object-fit:contain;"></video>
+                    <div id="sports-media-container" class="video-player-wrapper glass" style="background:#000; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; border-radius:12px; overflow:hidden; position:relative;">
+                        <!-- Loaded dynamically -->
                     </div>
 
-                    <div class="stream-details">
-                        <div class="detail-card glass">
-                            <h3>Match Info</h3>
-                            <p>TATA IPL 2026 — Exclusive Live Coverage</p>
+                    <div class="stream-details" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px;">
+                        <div class="detail-card glass" style="grid-column: span 2;">
+                            <h3 style="margin-bottom: 12px; font-size: 1rem; font-weight: 600; color: var(--text-secondary);">Select Stream Server</h3>
+                            <div class="sports-servers-list" style="display:flex; flex-wrap:wrap; gap:10px;">
+                                ${this.servers.map((srv, idx) => `
+                                    <button class="server-btn ${idx === this.currentServerIndex ? 'active' : ''}" onclick="SportsPage.switchServer(${idx})" style="padding: 10px 16px; border-radius: 8px; border: 1px solid ${idx === this.currentServerIndex ? 'var(--accent-color)' : 'rgba(255,255,255,0.1)'}; background: ${idx === this.currentServerIndex ? 'var(--accent-color)' : 'rgba(255,255,255,0.05)'}; color: #fff; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;">
+                                        ${srv.name}
+                                    </button>
+                                `).join('')}
+                            </div>
                         </div>
-                        <div class="detail-card glass">
-                            <h3>Quality</h3>
-                            <p>Auto HD / 1080p</p>
+                        <div class="detail-card glass" style="padding: 20px; border-radius: 12px;">
+                            <h3 style="margin-bottom: 8px; font-size: 1rem; font-weight: 600; color: var(--text-secondary);">Match Info</h3>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">DC vs RR — TATA IPL 2026 Live</p>
                         </div>
-                        <div class="detail-card glass">
-                            <h3>Server</h3>
-                            <p>Willow Sports HD (Main)</p>
+                        <div class="detail-card glass" style="padding: 20px; border-radius: 12px;">
+                            <h3 style="margin-bottom: 8px; font-size: 1rem; font-weight: 600; color: var(--text-secondary);">Quality</h3>
+                            <p style="color: var(--text-tertiary); font-size: 0.9rem;">Auto HD / 1080p</p>
                         </div>
                     </div>
                 </div>
@@ -124,28 +136,76 @@ const SportsPage = {
         `;
     },
 
-    initPlayer(url) {
-        setTimeout(() => {
-            const video = document.getElementById('sports-player');
-            if (!video) return;
-
-            if (Hls.isSupported()) {
-                this.hls = new Hls({
-                    enableWorker: true,
-                    lowLatencyMode: true,
-                    backBufferLength: 90
-                });
-                this.hls.loadSource(url);
-                this.hls.attachMedia(video);
-                this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.play().catch(err => console.log("Autoplay blocked:", err));
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-                video.addEventListener('loadedmetadata', () => {
-                    video.play().catch(err => console.log("Autoplay blocked:", err));
-                });
+    switchServer(index) {
+        this.currentServerIndex = index;
+        
+        const buttons = document.querySelectorAll('.server-btn');
+        buttons.forEach((btn, idx) => {
+            if (idx === index) {
+                btn.classList.add('active');
+                btn.style.background = 'var(--accent-color)';
+                btn.style.borderColor = 'var(--accent-color)';
+            } else {
+                btn.classList.remove('active');
+                btn.style.background = 'rgba(255,255,255,0.05)';
+                btn.style.borderColor = 'rgba(255,255,255,0.1)';
             }
-        }, 150);
+        });
+
+        this.loadMedia();
+    },
+
+    loadMedia() {
+        if (this.hls) {
+            this.hls.destroy();
+            this.hls = null;
+        }
+
+        const container = document.getElementById('sports-media-container');
+        if (!container) return;
+
+        const server = this.servers[this.currentServerIndex];
+
+        if (server.type === 'iframe') {
+            container.innerHTML = `
+                <iframe 
+                    src="${server.url}" 
+                    class="sports-iframe"
+                    allowfullscreen="true" 
+                    frameborder="0" 
+                    scrolling="no"
+                    allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
+                    referrerpolicy="no-referrer"
+                    style="width:100%; height:100%; border:none; border-radius:12px;"
+                ></iframe>
+            `;
+        } else {
+            container.innerHTML = `
+                <video id="sports-player" class="sports-video-element" controls style="width:100%; height:100%; object-fit:contain; border-radius:12px;"></video>
+            `;
+            
+            setTimeout(() => {
+                const video = document.getElementById('sports-player');
+                if (!video) return;
+
+                if (Hls.isSupported()) {
+                    this.hls = new Hls({
+                        enableWorker: true,
+                        lowLatencyMode: true,
+                        backBufferLength: 90
+                    });
+                    this.hls.loadSource(server.url);
+                    this.hls.attachMedia(video);
+                    this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                        video.play().catch(err => console.log("Autoplay blocked:", err));
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = server.url;
+                    video.addEventListener('loadedmetadata', () => {
+                        video.play().catch(err => console.log("Autoplay blocked:", err));
+                    });
+                }
+            }, 100);
+        }
     }
 };
