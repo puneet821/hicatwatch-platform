@@ -5,8 +5,8 @@
 window.LiveTvPage = {
     channels: [
         // --- 100s: GENERAL ENTERTAINMENT ---
-        { id: '101', name: 'DD National', category: 'Entertainment', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20National.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCwS2b9s01h5eG_H2v4B9xBg' },
-        { id: '103', name: 'Shemaroo TV', category: 'Entertainment', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Shemaroo_TV.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCppTzu3aHyfKz5M1A-k3W3g' },
+        { id: '101', name: 'DD National', category: 'Entertainment', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20National.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/40492a64c1db4a1385ba1a397d357d3a/index.m3u8' },
+        { id: '103', name: 'Shemaroo TV', category: 'Entertainment', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Shemaroo_TV.png', url: 'https://cdn-3.pishow.tv/live/230/master.m3u8' },
         { id: '105', name: 'Oscar Movies', category: 'Movies', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Osar_Movies.png', url: 'https://cdn-4.pishow.tv/live/233/master.m3u8' },
         { id: '107', name: 'Sangeet Bangla', category: 'Music', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Sangeet%20Bangla.png', url: 'https://cdn-4.pishow.tv/live/1143/master.m3u8' },
 
@@ -16,18 +16,17 @@ window.LiveTvPage = {
         { id: '405', name: 'Willow Sports', category: 'Sports', logo: 'https://i.imgur.com/v7nSm7M.png', url: 'https://embedsports.top/embed/admin/admin-willow-cricket/1' },
         
         // --- 500s: NEWS ---
-        { id: '501', name: 'Aaj Tak', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Aaj%20Tak%20HD.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCt4t-JeYMg5t0apLaF249CG' },
-        { id: '502', name: 'NDTV India', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_India.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCuZ4RL1707jiiquUxpV48eQ' },
-        { id: '503', name: 'India TV', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/India_TV.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCNoMNa6yT6z0_Evy9z_wGqQ' },
-        { id: '504', name: 'NDTV 24x7', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_24x7.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCgRvaltacKitOD157t5l_xA' },
-        { id: '505', name: 'DD News', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20News%20HD.png', url: 'https://www.youtube.com/embed/live_stream?channel=UC7G5E0t0WwsNf5v1_K-M2rA' },
-        { id: '506', name: 'Al Jazeera', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/AL_Jazeera.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCNye-wNBqg5to-WMDsGDjIA' },
-        { id: '507', name: 'ABP News', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/ABP_News.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCmpZY57Nspx9N-qAilw1SFA' },
+        { id: '501', name: 'Aaj Tak', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Aaj%20Tak%20HD.png', url: 'https://feeds.intoday.in/aajtak/api/aajtakhd/master.m3u8' },
+        { id: '502', name: 'NDTV India', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_India.png', url: 'https://ndtvindiaelemarchana.akamaized.net/hls/live/2003679/ndtvindia/master.m3u8' },
+        { id: '503', name: 'India TV', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/India_TV.png', url: 'https://pl-indiatvnews.akamaized.net/out/v1/db79179b608641ceaa5a4d0dd0dca8da/index.m3u8' },
+        { id: '504', name: 'NDTV 24x7', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_24x7.png', url: 'https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/master.m3u8' },
+        { id: '505', name: 'DD News', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20News%20HD.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/0811cd8c37ca4c409d5385a6cd2fa18b/index.m3u8' },
+        { id: '506', name: 'Al Jazeera', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/AL_Jazeera.png', url: 'https://live-hls-web-aja.getaj.net/AJA/index.m3u8' },
         
         // --- 600s: KIDS & LIFESTYLE ---
         { id: '601', name: 'Mr. Bean Animated', category: 'Kids', logo: 'https://i.imgur.com/5RZ78WP.png', url: 'https://amg00627-amg00627c23-samsung-au-4110.playouts.now.amagi.tv/playlist.m3u8' },
         { id: '602', name: 'Chithiram TV', category: 'Kids', logo: 'https://dvdh7g0f0hwck.cloudfront.net/assets/images/channel/CHITHIRAM_Transparent_0a0a1cd6-cba5-4899-b22d-ce53fa1236dd.png', url: 'https://cdn-6.pishow.tv/live/1243/master.m3u8' },
-        { id: '603', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://www.youtube.com/embed/live_stream?channel=UCKnQbFiqq0hzcGd1aGzN1Ew' },
+        { id: '603', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8' },
     ],
 
     hls: null,
@@ -198,7 +197,7 @@ window.LiveTvPage = {
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="watch-page page-enter">
-                <div class="watch__player-wrap" style="background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
+                <div class="watch__player-wrap" style="position:relative; background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
                     ${isIframe ? `
                         <iframe 
                             src="${channel.url}" 
@@ -212,6 +211,13 @@ window.LiveTvPage = {
                         ></iframe>
                     ` : `
                         <video id="live-player" controls playsinline webkit-playsinline preload="auto" style="width:100%; height:100%; object-fit: contain;"></video>
+                        <div id="player-overlay" onclick="window.LiveTvPage.startPlayback()" style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; z-index:10; transition: opacity 0.3s ease;">
+                            <div class="play-overlay-btn" style="width:72px; height:72px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 25px rgba(229, 9, 20, 0.5); margin-bottom:14px; transition: transform 0.2s ease;">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="color:#fff; margin-left:4px;"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                            <span style="color:#fff; font-weight:600; font-size:1.15rem; letter-spacing:0.5px; text-shadow:0 2px 4px rgba(0,0,0,0.8)">Tap to Start Stream</span>
+                            <span style="color:var(--text-secondary); font-size:0.85rem; margin-top:6px;">Ch. ${channel.id} • ${channel.name}</span>
+                        </div>
                     `}
                 </div>
                 <div class="watch__info">
@@ -241,6 +247,34 @@ window.LiveTvPage = {
         window.scrollTo(0, 0);
     },
 
+    startPlayback() {
+        const video = document.getElementById('live-player');
+        const overlay = document.getElementById('player-overlay');
+        if (video) {
+            video.play()
+                .then(() => {
+                    if (overlay) {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            overlay.style.display = 'none';
+                        }, 300);
+                    }
+                })
+                .catch(err => {
+                    console.log("Playback failed even after tap, trying muted:", err);
+                    video.muted = true;
+                    video.play().then(() => {
+                        if (overlay) {
+                            overlay.style.opacity = '0';
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+        }
+    },
+
     initPlayer(url) {
         const video = document.getElementById('live-player');
         if (!video) return;
@@ -258,16 +292,17 @@ window.LiveTvPage = {
             this.hls.loadSource(url);
             this.hls.attachMedia(video);
             this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(e => {
-                    console.log("Autoplay blocked on Android Live TV, waiting for user tap...");
-                    const playOnTap = () => {
-                        video.play().catch(err => console.log(err));
-                        document.removeEventListener('click', playOnTap);
-                        document.removeEventListener('touchstart', playOnTap);
-                    };
-                    document.addEventListener('click', playOnTap);
-                    document.addEventListener('touchstart', playOnTap);
-                });
+                video.play()
+                    .then(() => {
+                        const overlay = document.getElementById('player-overlay');
+                        if (overlay) {
+                            overlay.style.opacity = '0';
+                            setTimeout(() => overlay.style.display = 'none', 300);
+                        }
+                    })
+                    .catch(e => {
+                        console.log("Autoplay blocked, showing play overlay...");
+                    });
             });
             
             this.hls.on(Hls.Events.ERROR, (event, data) => {
@@ -285,15 +320,17 @@ window.LiveTvPage = {
                             this.hls.destroy();
                             this.hls = null;
                             video.src = url;
-                            video.play().catch(err => {
-                                const playOnTap = () => {
-                                    video.play().catch(e => console.log(e));
-                                    document.removeEventListener('click', playOnTap);
-                                    document.removeEventListener('touchstart', playOnTap);
-                                };
-                                document.addEventListener('click', playOnTap);
-                                document.addEventListener('touchstart', playOnTap);
-                            });
+                            video.play()
+                                .then(() => {
+                                    const overlay = document.getElementById('player-overlay');
+                                    if (overlay) {
+                                        overlay.style.opacity = '0';
+                                        setTimeout(() => overlay.style.display = 'none', 300);
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log("Native fallback play blocked:", err);
+                                });
                             break;
                     }
                 }
@@ -301,16 +338,17 @@ window.LiveTvPage = {
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.addEventListener('loadedmetadata', () => {
-                video.play().catch(e => {
-                    console.log("Native Autoplay blocked on Android Live TV, waiting for user tap...");
-                    const playOnTap = () => {
-                        video.play().catch(err => console.log(err));
-                        document.removeEventListener('click', playOnTap);
-                        document.removeEventListener('touchstart', playOnTap);
-                    };
-                    document.addEventListener('click', playOnTap);
-                    document.addEventListener('touchstart', playOnTap);
-                });
+                video.play()
+                    .then(() => {
+                        const overlay = document.getElementById('player-overlay');
+                        if (overlay) {
+                            overlay.style.opacity = '0';
+                            setTimeout(() => overlay.style.display = 'none', 300);
+                        }
+                    })
+                    .catch(e => {
+                        console.log("Native Autoplay blocked, waiting for tap...");
+                    });
             });
         }
     }
