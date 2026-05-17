@@ -13,7 +13,7 @@ window.LiveTvPage = {
         // --- 400s: SPORTS ---
         { id: '401', name: 'Red Bull TV', category: 'Sports', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Red_Bull_TV.png', url: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8' },
         { id: '403', name: 'DD Sports', category: 'Sports', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20Sports.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/b17adfe543354fdd8d189b110617cddd/index.m3u8' },
-        { id: '405', name: 'Willow Sports', category: 'Sports', logo: 'https://i.imgur.com/v7nSm7M.png', url: 'https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8' },
+        { id: '405', name: 'Willow Sports', category: 'Sports', logo: 'https://i.imgur.com/v7nSm7M.png', url: 'https://embedsports.top/embed/admin/admin-willow-cricket/1' },
         
         // --- 500s: NEWS ---
         { id: '501', name: 'Aaj Tak', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Aaj%20Tak%20HD.png', url: 'https://feeds.intoday.in/aajtak/api/aajtakhd/master.m3u8' },
@@ -192,11 +192,26 @@ window.LiveTvPage = {
         const channel = this.channels.find(c => c.id === id);
         if (!channel) return;
 
+        const isIframe = channel.url.includes('/embed/') || !channel.url.includes('.m3u8');
+
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="watch-page page-enter">
-                <div class="watch__player-wrap" style="background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9;">
-                    <video id="live-player" controls style="width:100%; height:100%;"></video>
+                <div class="watch__player-wrap" style="background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
+                    ${isIframe ? `
+                        <iframe 
+                            src="${channel.url}" 
+                            class="sports-iframe"
+                            allowfullscreen="true" 
+                            frameborder="0" 
+                            scrolling="no"
+                            allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
+                            referrerpolicy="no-referrer"
+                            style="width:100%; height:100%; border:none;"
+                        ></iframe>
+                    ` : `
+                        <video id="live-player" controls style="width:100%; height:100%; object-fit: contain;"></video>
+                    `}
                 </div>
                 <div class="watch__info">
                     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
@@ -209,12 +224,19 @@ window.LiveTvPage = {
                         <span style="color:var(--text-tertiary); font-weight:700">Ch. ${channel.id}</span>
                         <h1 class="watch__title">${channel.name}</h1>
                     </div>
-                    <p class="watch__overview" style="margin-top:12px">Native IPTV stream. Tata Sky Official Lineup.</p>
+                    <p class="watch__overview" style="margin-top:12px">Premium digital live feed.</p>
                 </div>
             </div>
         `;
 
-        this.initPlayer(channel.url);
+        if (!isIframe) {
+            this.initPlayer(channel.url);
+        } else {
+            if (this.hls) {
+                this.hls.destroy();
+                this.hls = null;
+            }
+        }
         window.scrollTo(0, 0);
     },
 
