@@ -8,6 +8,21 @@ const SportsPage = {
     currentMatchIndex: 0,
     currentServerIndex: 0,
 
+    getPlayableUrl(url) {
+        if (!url.includes('.m3u8')) return url;
+
+        // Detect native HLS support (iOS / iPhone Safari)
+        const isNativeHlsSupported = !Hls.isSupported() && document.createElement('video').canPlayType('application/vnd.apple.mpegurl');
+        if (isNativeHlsSupported) {
+            console.log("iOS/Safari Native HLS detected. Loading direct stream URL to avoid proxy issues.");
+            return url;
+        }
+
+        // For browsers requiring Hls.js (PC Chrome/Firefox, Android Chrome), use the public CORS proxy (unencoded)
+        console.log("PC / Android browser detected. Routing HLS stream through high-performance CORS proxy.");
+        return `https://corsproxy.io/?${url}`;
+    },
+
     async render(type) {
         if (this.hls) {
             this.hls.destroy();
@@ -292,8 +307,7 @@ const SportsPage = {
                 const video = document.getElementById('sports-player');
                 if (!video) return;
 
-                // Use high-performance CORS proxy for HLS streams to bypass all strict PC browser blocks
-                const proxiedUrl = server.url.includes('.m3u8') ? `https://corsproxy.io/?${encodeURIComponent(server.url)}` : server.url;
+                const proxiedUrl = this.getPlayableUrl(server.url);
 
                 if (Hls.isSupported()) {
                     this.hls = new Hls({

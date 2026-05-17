@@ -240,6 +240,21 @@ window.LiveTvPage = {
         window.scrollTo(0, 0);
     },
 
+    getPlayableUrl(url) {
+        if (!url.includes('.m3u8')) return url;
+
+        // Detect native HLS support (iOS / iPhone Safari)
+        const isNativeHlsSupported = !Hls.isSupported() && document.createElement('video').canPlayType('application/vnd.apple.mpegurl');
+        if (isNativeHlsSupported) {
+            console.log("iOS/Safari Native HLS detected. Loading direct stream URL to avoid proxy issues.");
+            return url;
+        }
+
+        // For browsers requiring Hls.js (PC Chrome/Firefox, Android Chrome), use the public CORS proxy (unencoded)
+        console.log("PC / Android browser detected. Routing HLS stream through high-performance CORS proxy.");
+        return `https://corsproxy.io/?${url}`;
+    },
+
     initPlayer(url) {
         const video = document.getElementById('live-player');
         if (!video) return;
@@ -248,8 +263,7 @@ window.LiveTvPage = {
             this.hls.destroy();
         }
 
-        // Use high-performance CORS proxy for HLS streams to bypass all strict PC browser blocks
-        const proxiedUrl = url.includes('.m3u8') ? `https://corsproxy.io/?${encodeURIComponent(url)}` : url;
+        const proxiedUrl = this.getPlayableUrl(url);
 
         if (Hls.isSupported()) {
             this.hls = new Hls({
