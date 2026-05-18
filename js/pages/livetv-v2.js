@@ -22,6 +22,19 @@ window.LiveTvPage = {
         { id: '504', name: 'NDTV 24x7', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/NDTV_24x7.png', url: 'https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/master.m3u8' },
         { id: '505', name: 'DD News', category: 'News', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/DD%20News%20HD.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/0811cd8c37ca4c409d5385a6cd2fa18b/index.m3u8' },
         { id: '506', name: 'Al Jazeera', category: 'News', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/AL_Jazeera.png', url: 'https://live-hls-web-aja.getaj.net/AJA/index.m3u8' },
+        { id: '507', name: 'ABP News', category: 'News', logo: 'https://dtil.tmsimg.com/assets/s158138_ld_h15_aa.png?lock=720x540', url: 'https://d2l4ar6y3mrs4k.cloudfront.net/live-streaming/abpnews-livetv/master.m3u8' },
+        { id: '508', name: 'Zee News', category: 'News', logo: 'https://dtil.tmsimg.com/assets/GNLZZGG0023VWYC.png?lock=720x540', url: 'https://dknttpxmr0dwf.cloudfront.net/index_57.m3u8' },
+        { id: '509', name: 'News18 India', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_NEWS18_INDIA/images/LOGO_HD/image.png', url: 'https://n18syndication.akamaized.net/bpk-tv/News18_India_NW18_MOB/output01/master.m3u8' },
+        { id: '510', name: 'Republic TV', category: 'News', logo: 'https://dtil.tmsimg.com/assets/s143723_ld_h15_aa.png?lock=720x540', url: 'https://samsung-republictv.amagi.tv/ts-ap-s1-n1/playlist/samsungin-republictv-samsungindia/playlist.m3u8' },
+        { id: '511', name: 'Republic Bharat', category: 'News', logo: 'https://dtil.tmsimg.com/assets/s143724_ld_h15_aa.png?lock=720x540', url: 'https://vg-republictvlive.akamaized.net/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/vglive-sk-275673/main.m3u8' },
+        { id: '512', name: 'India Today', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_INDIA_TODAY/images/LOGO_HD/image.png', url: 'https://indiatodaylive.akamaized.net/hls/live/2014320/indiatoday/indiatodaylive/playlist.m3u8' },
+        { id: '513', name: 'Good News Today', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_GOOD_NEWS_TODAY/images/LOGO_HD/image.png', url: 'https://aajtaklive.vgcdn.net/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/3196cced-ce29-4219-9809-f07ccdaa02b9/vglive-sk-848805/master.m3u8' },
+        { id: '514', name: 'Mirror Now', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_MIRROR_NOW/images/LOGO_HD/image.png', url: 'https://dai.google.com/linear/hls/event/ClPOullTQky5vGPf7fMZ8g/master.m3u8' },
+        { id: '515', name: 'TV9 Bharatvarsh', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_TV9_BHARATVARSH/images/LOGO_HD/image.png', url: 'https://dyjmyiv3bp2ez.cloudfront.net/pub-iotv9hinjzgtpe/liveabr/playlist.m3u8' },
+        { id: '516', name: 'France 24', category: 'News', logo: 'https://upload.wikimedia.org/wikipedia/commons/8/82/France_24_logo.svg', url: 'https://static.france24.com/live/F24_EN_LO_HLS/live_web.m3u8' },
+        { id: '517', name: 'TV9 Telugu', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_TV9_TELUGU_NEWS/images/LOGO_HD/image.png', url: 'https://dyjmyiv3bp2ez.cloudfront.net/pub-iotv9telcmjhcs/liveabr/playlist.m3u8' },
+        { id: '518', name: 'Asianet News', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_ASIANET_NEWS/images/LOGO_HD/image.png', url: 'https://amg13737-amg13737c1-amgplt0016.playout.now3.amagi.tv/playlist/amg13737-amg13737c1-amgplt0016/playlist.m3u8' },
+        { id: '519', name: 'Manorama News', category: 'News', logo: 'https://i.imgur.com/adjRrVx.png', url: 'https://mmtvnews1.akamaized.net/v1/master/673630b269b766886555eebfddd4f27f3de3ab50/mmtvNewsCampaign1/index.m3u8' },
         
         // --- 600s: KIDS & LIFESTYLE ---
         { id: '601', name: 'Mr. Bean Animated', category: 'Kids', logo: 'https://i.imgur.com/5RZ78WP.png', url: 'https://amg00627-amg00627c23-samsung-au-4110.playouts.now.amagi.tv/playlist.m3u8' },
@@ -40,7 +53,7 @@ window.LiveTvPage = {
                     <div class="livetv-hero__content">
                         <span class="live-badge">TATA SKY EDITION</span>
                         <h1>HiCat Live TV</h1>
-                        <p>Access 50+ premium Tata Sky channels organized by official numbers.</p>
+                        <p>Access premium live channels organized by official numbers.</p>
                         
                         <div class="livetv-search">
                             <input type="text" id="livetv-search-input" placeholder="Search by name or channel number (e.g. 103, Zee TV)...">
@@ -121,6 +134,16 @@ window.LiveTvPage = {
         if (c.name.includes('DW')) initials = 'DW';
         if (c.name.includes('Aaj Tak')) initials = 'AT';
         if (c.name.includes('Al Jazeera')) initials = 'AJ';
+        if (c.name.includes('ABP News')) initials = 'ABP';
+        if (c.name.includes('Zee News')) initials = 'ZEE';
+        if (c.name.includes('News18')) initials = 'N18';
+        if (c.name.includes('Republic TV')) initials = 'REP';
+        if (c.name.includes('Republic Bharat')) initials = 'RBH';
+        if (c.name.includes('India Today')) initials = 'IND';
+        if (c.name.includes('Good News Today')) initials = 'GNT';
+        if (c.name.includes('Mirror Now')) initials = 'MN';
+        if (c.name.includes('TV9')) initials = 'TV9';
+        if (c.name.includes('France 24')) initials = 'F24';
         
         let gradient, icon;
         switch(c.category) {
