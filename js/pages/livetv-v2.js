@@ -220,7 +220,7 @@ window.LiveTvPage = {
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="watch-page page-enter">
-                <div class="watch__player-wrap" style="background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
+                <div class="watch__player-wrap" style="background:#000; display:flex; align-items:center; justify-content:center; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; position: relative;">
                     ${isIframe ? `
                         <iframe 
                             src="${channel.url}" 
@@ -233,7 +233,70 @@ window.LiveTvPage = {
                             style="width:100%; height:100%; border:none;"
                         ></iframe>
                     ` : `
-                        <video id="live-player" controls playsinline webkit-playsinline preload="auto" style="width:100%; height:100%; object-fit: contain;"></video>
+                        <div class="custom-player" id="custom-player-wrapper">
+                            <video id="live-player" playsinline webkit-playsinline preload="auto"></video>
+                            
+                            <!-- Centered play/pause & loader overlay -->
+                            <div class="custom-player__overlay" id="player-big-overlay">
+                                <div class="custom-player__big-btn" id="player-big-btn">
+                                    <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" style="width:36px;height:36px;"><path d="M8 5v14l11-7z"/></svg>
+                                    <svg class="pause-icon hidden" viewBox="0 0 24 24" fill="currentColor" style="width:36px;height:36px;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                </div>
+                                <div class="custom-player__spinner hidden" id="player-spinner">
+                                    <div class="spinner-ring"></div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom premium control bar -->
+                            <div class="custom-player__controls" id="player-controls-bar">
+                                <div class="custom-player__live-timeline"></div>
+                                
+                                <div class="custom-player__controls-row">
+                                    <!-- Left controls -->
+                                    <div class="custom-player__controls-left">
+                                        <button class="player-control-btn" id="player-play-btn" title="Play/Pause">
+                                            <svg class="play-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            <svg class="pause-svg hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        </button>
+                                        
+                                        <div class="player-live-badge-wrap">
+                                            <span class="player-live-dot"></span>
+                                            <span class="player-live-text">LIVE</span>
+                                        </div>
+                                        
+                                        <span class="player-channel-title" id="player-channel-name">${channel.name}</span>
+                                    </div>
+                                    
+                                    <!-- Right controls -->
+                                    <div class="custom-player__controls-right">
+                                        <!-- Volume -->
+                                        <div class="player-volume-container">
+                                            <button class="player-control-btn" id="player-volume-btn" title="Mute/Unmute">
+                                                <svg class="vol-high-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                                                <svg class="vol-mute-svg hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                                            </button>
+                                            <input type="range" class="player-volume-slider" id="player-volume-slider" min="0" max="1" step="0.05" value="1">
+                                        </div>
+
+                                        <!-- Settings -->
+                                        <button class="player-control-btn" id="player-settings-btn" title="Toggle Quality / Info">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                        </button>
+
+                                        <!-- Picture in Picture -->
+                                        <button class="player-control-btn" id="player-pip-btn" title="Picture-in-Picture">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="10" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                                        </button>
+
+                                        <!-- Fullscreen -->
+                                        <button class="player-control-btn" id="player-fullscreen-btn" title="Fullscreen">
+                                            <svg class="fullscreen-enter-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                                            <svg class="fullscreen-exit-svg hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     `}
                 </div>
                 <div class="watch__info">
@@ -282,6 +345,184 @@ window.LiveTvPage = {
         const video = document.getElementById('live-player');
         if (!video) return;
 
+        const wrapper = document.getElementById('custom-player-wrapper');
+        const bigOverlay = document.getElementById('player-big-overlay');
+        const bigBtn = document.getElementById('player-big-btn');
+        const bigPlayIcon = bigBtn.querySelector('.play-icon');
+        const bigPauseIcon = bigBtn.querySelector('.pause-icon');
+        const spinner = document.getElementById('player-spinner');
+
+        const playBtn = document.getElementById('player-play-btn');
+        const playSvg = playBtn.querySelector('.play-svg');
+        const pauseSvg = playBtn.querySelector('.pause-svg');
+
+        const volumeBtn = document.getElementById('player-volume-btn');
+        const volHighSvg = volumeBtn.querySelector('.vol-high-svg');
+        const volMuteSvg = volumeBtn.querySelector('.vol-mute-svg');
+        const volumeSlider = document.getElementById('player-volume-slider');
+
+        const settingsBtn = document.getElementById('player-settings-btn');
+        const pipBtn = document.getElementById('player-pip-btn');
+        const fullscreenBtn = document.getElementById('player-fullscreen-btn');
+        const fsEnterSvg = fullscreenBtn.querySelector('.fullscreen-enter-svg');
+        const fsExitSvg = fullscreenBtn.querySelector('.fullscreen-exit-svg');
+
+        let controlsTimeout = null;
+
+        // Auto-show/hide controls logic
+        const showControls = () => {
+            wrapper.classList.remove('controls-hidden');
+            wrapper.classList.add('controls-visible');
+            clearTimeout(controlsTimeout);
+            controlsTimeout = setTimeout(() => {
+                if (!video.paused) {
+                    wrapper.classList.remove('controls-visible');
+                    wrapper.classList.add('controls-hidden');
+                }
+            }, 2500);
+        };
+
+        wrapper.addEventListener('mousemove', showControls);
+        wrapper.addEventListener('touchstart', showControls);
+        wrapper.addEventListener('mouseleave', () => {
+            if (!video.paused) {
+                wrapper.classList.remove('controls-visible');
+                wrapper.classList.add('controls-hidden');
+            }
+        });
+
+        // Trigger loading state initially
+        spinner.classList.remove('hidden');
+        bigBtn.style.opacity = '0';
+
+        // Update UI state based on playing/paused
+        const updateUIState = () => {
+            if (video.paused) {
+                wrapper.classList.add('paused');
+                showControls();
+                bigPlayIcon.classList.remove('hidden');
+                bigPauseIcon.classList.add('hidden');
+                playSvg.classList.remove('hidden');
+                pauseSvg.classList.add('hidden');
+            } else {
+                wrapper.classList.remove('paused');
+                bigPlayIcon.classList.add('hidden');
+                bigPauseIcon.classList.remove('hidden');
+                playSvg.classList.add('hidden');
+                pauseSvg.classList.remove('hidden');
+            }
+        };
+
+        const togglePlay = (e) => {
+            if (e) e.stopPropagation();
+            if (video.paused) {
+                video.play().catch(e => console.log("Play failed:", e));
+            } else {
+                video.pause();
+            }
+            updateUIState();
+        };
+
+        bigOverlay.addEventListener('click', togglePlay);
+        playBtn.addEventListener('click', togglePlay);
+
+        // Volume event listeners
+        const updateVolume = () => {
+            const val = parseFloat(volumeSlider.value);
+            video.volume = val;
+            video.muted = (val === 0);
+            
+            if (video.muted) {
+                volHighSvg.classList.add('hidden');
+                volMuteSvg.classList.remove('hidden');
+            } else {
+                volHighSvg.classList.remove('hidden');
+                volMuteSvg.classList.add('hidden');
+            }
+        };
+
+        volumeSlider.addEventListener('input', updateVolume);
+        volumeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.muted || video.volume === 0) {
+                video.muted = false;
+                volumeSlider.value = 1;
+            } else {
+                video.muted = true;
+                volumeSlider.value = 0;
+            }
+            updateVolume();
+        });
+
+        // Settings (simply show stats/latency info for live stream)
+        settingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.hls) {
+                const latency = this.hls.latency ? this.hls.latency.toFixed(2) + "s" : "N/A";
+                Components.showToast(`Stream Latency: ${latency} | Source: Direct HLS`, 'info');
+            } else {
+                Components.showToast(`Source: Native HLS | Auto Quality`, 'info');
+            }
+        });
+
+        // PIP button
+        if (!document.pictureInPictureEnabled || !video.requestPictureInPicture) {
+            pipBtn.style.display = 'none';
+        } else {
+            pipBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (document.pictureInPictureElement) {
+                    document.exitPictureInPicture().catch(e => console.log(e));
+                } else {
+                    video.requestPictureInPicture().catch(e => console.log(e));
+                }
+            });
+        }
+
+        // Fullscreen toggle
+        const toggleFullscreen = (e) => {
+            if (e) e.stopPropagation();
+            if (!document.fullscreenElement) {
+                wrapper.requestFullscreen().catch(err => {
+                    // Fallback to video native fullscreen if wrapper fails
+                    if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        };
+
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // Double-click wrapper to toggle fullscreen
+        wrapper.addEventListener('dblclick', toggleFullscreen);
+
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement === wrapper) {
+                fsEnterSvg.classList.add('hidden');
+                fsExitSvg.classList.remove('hidden');
+            } else {
+                fsEnterSvg.classList.remove('hidden');
+                fsExitSvg.classList.add('hidden');
+            }
+        });
+
+        // Handle load states
+        video.addEventListener('waiting', () => {
+            spinner.classList.remove('hidden');
+            bigBtn.style.opacity = '0';
+        });
+
+        video.addEventListener('playing', () => {
+            spinner.classList.add('hidden');
+            bigBtn.style.opacity = '';
+            updateUIState();
+        });
+
+        video.addEventListener('pause', updateUIState);
+        video.addEventListener('play', updateUIState);
+
+        // Core HLS/Direct logic
         if (this.hls) {
             this.hls.destroy();
         }
@@ -297,10 +538,11 @@ window.LiveTvPage = {
             this.hls.loadSource(proxiedUrl);
             this.hls.attachMedia(video);
             this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(e => {
-                    console.log("Autoplay blocked on Android Live TV, waiting for user tap...");
+                video.play().then(updateUIState).catch(e => {
+                    console.log("Autoplay blocked, waiting for user tap...");
+                    updateUIState();
                     const playOnTap = () => {
-                        video.play().catch(err => console.log(err));
+                        video.play().then(updateUIState).catch(err => console.log(err));
                         document.removeEventListener('click', playOnTap);
                         document.removeEventListener('touchstart', playOnTap);
                     };
@@ -308,7 +550,7 @@ window.LiveTvPage = {
                     document.addEventListener('touchstart', playOnTap);
                 });
             });
-            
+
             this.hls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
                     switch (data.type) {
@@ -327,10 +569,11 @@ window.LiveTvPage = {
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = proxiedUrl;
             video.addEventListener('loadedmetadata', () => {
-                video.play().catch(e => {
-                    console.log("Native Autoplay blocked on Android Live TV, waiting for user tap...");
+                video.play().then(updateUIState).catch(e => {
+                    console.log("Native Autoplay blocked, waiting for user tap...");
+                    updateUIState();
                     const playOnTap = () => {
-                        video.play().catch(err => console.log(err));
+                        video.play().then(updateUIState).catch(err => console.log(err));
                         document.removeEventListener('click', playOnTap);
                         document.removeEventListener('touchstart', playOnTap);
                     };
