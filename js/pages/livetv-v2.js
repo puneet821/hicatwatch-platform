@@ -326,7 +326,7 @@ window.LiveTvPage = {
         window.scrollTo(0, 0);
     },
 
-    getPlayableUrl(url) {
+    getPlayableUrl(url, useProxy = false) {
         if (!url.includes('.m3u8')) return url;
 
         // Detect native HLS support (iOS / iPhone Safari)
@@ -336,12 +336,17 @@ window.LiveTvPage = {
             return url;
         }
 
-        // For browsers requiring Hls.js (PC Chrome/Firefox, Android Chrome), use the public CORS proxy (unencoded)
-        console.log("PC / Android browser detected. Routing HLS stream through high-performance CORS proxy.");
+        if (!useProxy) {
+            console.log("Attempting direct stream loading (no proxy). URL:", url);
+            return url;
+        }
+
+        // For browsers requiring Hls.js (PC Chrome/Firefox, Android Chrome), fall back to public CORS proxy if direct fails
+        console.log("Proxy fallback triggered. Routing HLS stream through corsproxy.io proxy.");
         return `https://corsproxy.io/?${url}`;
     },
 
-    initPlayer(url) {
+    initPlayer(url, useProxy = false) {
         const video = document.getElementById('live-player');
         if (!video) return;
 
@@ -368,6 +373,7 @@ window.LiveTvPage = {
         const fsExitSvg = fullscreenBtn.querySelector('.fullscreen-exit-svg');
 
         let controlsTimeout = null;
+        let hasFailedOver = false;
 
         // Auto-show/hide controls logic
         const showControls = () => {
@@ -459,7 +465,8 @@ window.LiveTvPage = {
             e.stopPropagation();
             if (this.hls) {
                 const latency = this.hls.latency ? this.hls.latency.toFixed(2) + "s" : "N/A";
-                Components.showToast(`Stream Latency: ${latency} | Source: Direct HLS`, 'info');
+                const mode = useProxy ? "CORS Proxy Fallback" : "Direct HLS Connection";
+                Components.showToast(`Stream Latency: ${latency} | Source: ${mode}`, 'info');
             } else {
                 Components.showToast(`Source: Native HLS | Auto Quality`, 'info');
             }
@@ -507,6 +514,22 @@ window.LiveTvPage = {
             }
         });
 
+        // Failover error handler
+        const handlePlaybackError = (type, details) => {
+            if (!hasFailedOver && !useProxy) {
+                console.log("Direct stream loading error (" + type + "). Auto-failing over to CORS proxy...");
+                hasFailedOver = true;
+                if (this.hls) {
+                    this.hls.destroy();
+                    this.hls = null;
+                }
+                Components.showToast("Bypassing firewalls... optimizing stream proxy", "info");
+                this.initPlayer(url, true); // Reload with proxy fallback enabled!
+            } else {
+                console.error("Playback error:", type, details);
+            }
+        };
+
         // Handle load states
         video.addEventListener('waiting', () => {
             spinner.classList.remove('hidden');
@@ -521,13 +544,16 @@ window.LiveTvPage = {
 
         video.addEventListener('pause', updateUIState);
         video.addEventListener('play', updateUIState);
+        video.addEventListener('error', () => {
+            handlePlaybackError("NATIVE_VIDEO_ERROR", video.error);
+        });
 
         // Core HLS/Direct logic
         if (this.hls) {
             this.hls.destroy();
         }
 
-        const proxiedUrl = this.getPlayableUrl(url);
+        const proxiedUrl = this.getPlayableUrl(url, useProxy);
 
         if (Hls.isSupported()) {
             this.hls = new Hls({
@@ -555,13 +581,21 @@ window.LiveTvPage = {
                 if (data.fatal) {
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
-                            this.hls.startLoad();
+                            if (!useProxy) {
+                                handlePlaybackError("HLS_NETWORK_ERROR", data.details);
+                            } else {
+                                this.hls.startLoad();
+                            }
                             break;
                         case Hls.ErrorTypes.MEDIA_ERROR:
                             this.hls.recoverMediaError();
                             break;
                         default:
-                            this.hls.destroy();
+                            if (!useProxy) {
+                                handlePlaybackError("HLS_FATAL_ERROR", data.details);
+                            } else {
+                                this.hls.destroy();
+                            }
                             break;
                     }
                 }
