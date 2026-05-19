@@ -36,10 +36,22 @@ window.LiveTvPage = {
         { id: '518', name: 'Asianet News', category: 'News', logo: 'https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_ASIANET_NEWS/images/LOGO_HD/image.png', url: 'https://amg13737-amg13737c1-amgplt0016.playout.now3.amagi.tv/playlist/amg13737-amg13737c1-amgplt0016/playlist.m3u8' },
         { id: '519', name: 'Manorama News', category: 'News', logo: 'https://i.imgur.com/adjRrVx.png', url: 'https://mmtvnews1.akamaized.net/v1/master/673630b269b766886555eebfddd4f27f3de3ab50/mmtvNewsCampaign1/index.m3u8' },
         
-        // --- 600s: KIDS & LIFESTYLE ---
+        // --- 600s: KIDS & CARTOONS ---
         { id: '601', name: 'Mr. Bean Animated', category: 'Kids', logo: 'https://i.imgur.com/5RZ78WP.png', url: 'https://amg00627-amg00627c23-samsung-au-4110.playouts.now.amagi.tv/playlist.m3u8' },
-        { id: '602', name: 'Chithiram TV', category: 'Kids', logo: 'https://dvdh7g0f0hwck.cloudfront.net/assets/images/channel/CHITHIRAM_Transparent_0a0a1cd6-cba5-4899-b22d-ce53fa1236dd.png', url: 'https://cdn-6.pishow.tv/live/1243/master.m3u8' },
-        { id: '603', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8' },
+        { id: '602', name: 'Pokémon TV', category: 'Kids', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Pokemon_TV.png', url: 'https://samsung-pokemon.amagi.tv/playlist/samsungindia-pokemon/playlist.m3u8' },
+        { id: '603', name: 'Cocomelon Channel', category: 'Kids', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Cocomelon.png', url: 'https://samsung-cocomelon.amagi.tv/playlist/samsungindia-cocomelon/playlist.m3u8' },
+        { id: '604', name: 'SpongeBob TV', category: 'Kids', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Spongebob_Squarepants.png', url: 'https://spongebob-samsung.amagi.tv/playlist/samsungin-spongebob-samsungindia/playlist.m3u8' },
+        { id: '605', name: 'Nick Jr. India', category: 'Kids', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Nick%20Jr.png', url: 'https://nickjr-samsung.amagi.tv/playlist/samsungin-nickjr-samsungindia/playlist.m3u8' },
+        { id: '606', name: 'Toon Goggles', category: 'Kids', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Toon%20Goggles.png', url: 'https://toongoggles-samsung.amagi.tv/playlist/samsungin-toongoggles-samsungindia/playlist.m3u8' },
+        { id: '607', name: 'Baby Shark TV', category: 'Kids', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Baby%20Shark.png', url: 'https://babyshark-samsung.amagi.tv/playlist/samsungin-babyshark-samsungindia/playlist.m3u8' },
+        { id: '608', name: 'Riki Kids', category: 'Kids', logo: 'https://i.imgur.com/bKxL8P7.png', url: 'https://rikikids-samsung.amagi.tv/playlist/samsungin-rikikids-samsungindia/playlist.m3u8' },
+        { id: '609', name: 'Bibi.Pet Kids', category: 'Kids', logo: 'https://i.imgur.com/rL4d1vB.png', url: 'https://bibipetkids-samsung.amagi.tv/playlist/samsungin-bibipetkids-samsungindia/playlist.m3u8' },
+        { id: '610', name: 'Pencilmation', category: 'Kids', logo: 'https://i.imgur.com/uC5Uq9p.png', url: 'https://pencilmation-samsung.amagi.tv/playlist/samsungin-pencilmation-samsungindia/playlist.m3u8' },
+        { id: '611', name: 'LooLoo Kids', category: 'Kids', logo: 'https://i.imgur.com/W3YdG9c.png', url: 'https://loolookids-samsung.amagi.tv/playlist/samsungin-loolookids-samsungindia/playlist.m3u8' },
+        { id: '612', name: 'Happy Kids', category: 'Kids', logo: 'https://i.imgur.com/X4YdG9c.png', url: 'https://happykids-samsung.amagi.tv/playlist/samsungin-happykids-samsungindia/playlist.m3u8' },
+        { id: '613', name: 'PBS Kids Live', category: 'Kids', logo: 'https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/PBS%20Kids.png', url: 'https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/0811cd8c37ca4c409d5385a6cd2fa18b/index.m3u8' },
+        { id: '614', name: 'Chithiram TV', category: 'Kids', logo: 'https://dvdh7g0f0hwck.cloudfront.net/assets/images/channel/CHITHIRAM_Transparent_0a0a1cd6-cba5-4899-b22d-ce53fa1236dd.png', url: 'https://cdn-6.pishow.tv/live/1243/master.m3u8' },
+        { id: '615', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8' },
     ],
 
     hls: null,
@@ -69,7 +81,7 @@ window.LiveTvPage = {
                         <button class="livetv-cat" data-cat="Movies">Movies</button>
                         <button class="livetv-cat" data-cat="Sports">Sports</button>
                         <button class="livetv-cat" data-cat="News">News</button>
-                        <button class="livetv-cat" data-cat="Kids">Kids</button>
+                        <button class="livetv-cat" data-cat="Kids">Kids & Cartoons</button>
                         <button class="livetv-cat" data-cat="Regional">Regional</button>
                         <button class="livetv-cat" data-cat="Music">Music</button>
                     </div>
