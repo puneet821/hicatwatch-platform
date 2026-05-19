@@ -50,7 +50,8 @@ window.LiveTvPage = {
         { id: '611', name: 'ZooMoo TV', category: 'Kids', logo: 'https://i.imgur.com/ciTJrnl.png', url: 'https://zoomoo-samsungau.amagi.tv/playlist.m3u8' },
         { id: '612', name: 'TRT Çocuk', category: 'Kids', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/TRT_%C3%87ocuk_logo_%282021%29.svg/960px-TRT_%C3%87ocuk_logo_%282021%29.svg.png', url: 'https://tv-trtcocuk.medya.trt.com.tr/master.m3u8' },
         { id: '613', name: 'Mr. Bean Live Action', category: 'Kids', logo: 'https://i.imgur.com/y1vO18e.png', url: 'https://amg00627-amg00627c39-samsung-gb-5569.playouts.now.amagi.tv/playlist.m3u8' },
-        { id: '614', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8' },
+        { id: '614', name: 'Sony YAY! (Oggy & Cartoons)', category: 'Kids', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/Sony_Yay.png', url: 'https://sl.vodep39240327.workers.dev/channel/SONY%20YAY.m3u8' },
+        { id: '615', name: 'DW Global', category: 'Lifestyle', logo: 'https://jiotvimages.cdn.jio.com/dare_images/images/dw.png', url: 'https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8' },
     ],
 
     hls: null,
