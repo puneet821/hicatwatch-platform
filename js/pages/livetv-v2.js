@@ -38,7 +38,7 @@ window.LiveTvPage = {
         
         // --- 600s: KIDS & CARTOONS ---
         { id: '601', name: 'Mr. Bean Animated', category: 'Kids', logo: 'https://i.imgur.com/5RZ78WP.png', url: 'https://amg00627-amg00627c23-samsung-au-4110.playouts.now.amagi.tv/playlist.m3u8' },
-        { id: '602', name: 'Tom & Jerry TV', category: 'Kids', logo: 'https://i.postimg.cc/k4x6tq7B/Tom-Jerry-Logo.png', url: 'https://live20.bozztv.com/giatvplayout7/giatv-208314/playlist.m3u8' },
+        { id: '602', name: 'Cartoon Network', category: 'Kids', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cartoon_Network_2010_logo.svg/512px-Cartoon_Network_2010_logo.svg.png', url: 'https://live20.bozztv.com/giatvplayout7/giatv-208314/playlist.m3u8' },
         { id: '603', name: 'PBS Kids Live', category: 'Kids', logo: 'https://i.imgur.com/q4cUQKW.png', url: 'https://livestream.pbskids.org/out/v1/14507d931bbe48a69287e4850e53443c/est.m3u8' },
         { id: '604', name: 'LEGO Channel', category: 'Kids', logo: 'https://i.imgur.com/tMfEsVr.png', url: 'https://dltiqboxjw21d.cloudfront.net/index.m3u8' },
         { id: '605', name: 'Teletubbies TV', category: 'Kids', logo: 'https://i.imgur.com/J9iWjWL.png', url: 'https://dv8lsrd8fecw9.cloudfront.net/master.m3u8' },
